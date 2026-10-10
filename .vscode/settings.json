@@ -1,0 +1,27 @@
+{
+  "editor.quickSuggestions": {
+    "other": "on",
+    "comments": "off",
+    "strings": "on"
+  },
+  "editor.suggest.snippetsPreventQuickSuggestions": false,
+  "tailwindCSS.includeLanguages": {
+    "html": "html",
+    "typescript": "typescript"
+  },
+  "tailwindCSS.experimental.configFile": "src/styles.css",
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.classAttributes": [
+    "class",
+    "ngClass",
+    "[class]",
+    "[ngClass]"
+  ],
+  "tailwindCSS.experimental.classRegex": [
+    ["class:\\s*['\"`]([^'\"`]*?)['\"`]", "['\"`]([^'\"`]*?)['\"`]"],
+    ["\\[class\\]=\"'([^']*)'\"", "'([^']*)'"]
+  ],
+  "files.associations": {
+    "*.html": "html"
+  }
+}

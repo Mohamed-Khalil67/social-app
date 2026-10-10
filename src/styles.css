@@ -1,0 +1,19 @@
+@import "tailwindcss";
+@import "primeicons/primeicons.css";
+
+/* Font: SN Pro */
+@import '@fontsource/sn-pro/400.css';
+@import '@fontsource/sn-pro/500.css';
+@import '@fontsource/sn-pro/600.css';
+@import '@fontsource/sn-pro/700.css';
+
+@theme {
+  --font-sans: 'SN Pro', sans-serif;
+  --color-primaryColor: #00298D;
+  --color-secondaryColor: #f0f2f5;
+}
+
+body {
+  background-color: var(--color-secondaryColor);
+  font-family: 'SN Pro', sans-serif;
+}
