@@ -1,1 +1,126 @@
-<p>login works!</p>
+<div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-100 w-full">
+  <!-- Top Switcher: Login / Register -->
+  <div class="grid grid-cols-2 gap-1 rounded-xl bg-slate-100 p-1 mb-6">
+    <a
+      routerLink="/login"
+      class="rounded-lg py-2 text-sm font-extrabold bg-white text-[#00298d] shadow-sm text-center cursor-pointer"
+    >
+      Login
+    </a>
+    <a
+      routerLink="/register"
+      class="rounded-lg py-2 text-sm font-extrabold text-slate-600 hover:text-slate-800 text-center cursor-pointer"
+    >
+      Register
+    </a>
+  </div>
+
+  <!-- Header -->
+  <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Welcome back</h2>
+  <p class="text-sm text-gray-500 mt-1 mb-6">Log in to your Route Posts account.</p>
+
+  <!-- Form Fields -->
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="space-y-3.5">
+    <!-- Email address -->
+    <div>
+      <div class="relative">
+        <input
+          type="email"
+          id="login-email"
+          formControlName="email"
+          placeholder=" "
+          class="peer w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none border-slate-200 transition-colors focus:border-[#00298d] focus:bg-white"
+          [class.!border-rose-500]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+        />
+        <span
+          class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 z-10 transition-colors duration-200 peer-focus:text-[#00298d]"
+          [class.!text-rose-500]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+        >
+          <i class="fa-solid fa-at text-sm"></i>
+        </span>
+        <label
+          for="login-email"
+          class="pointer-events-none absolute left-3.5 top-0 z-10 -translate-y-1/2 bg-white px-1.5 text-xs font-medium text-slate-600 transition-all duration-200 peer-placeholder-shown:left-11 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:bg-transparent peer-placeholder-shown:px-0 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal peer-placeholder-shown:text-slate-400 peer-focus:left-3.5 peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:bg-white peer-focus:px-1.5 peer-focus:text-xs peer-focus:font-medium peer-focus:text-[#00298d]"
+          [class.!text-rose-500]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+        >
+          Email address
+        </label>
+      </div>
+      @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+        <div class="flex items-center p-4 mt-2 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+          <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+          </svg>
+          <span class="sr-only">Danger</span>
+          <div>
+            @if (loginForm.get('email')?.errors?.['required']) {
+              <span class="font-medium">Email is required.</span>
+            } @else if (loginForm.get('email')?.errors?.['email']) {
+              <span class="font-medium">Please enter a valid email address.</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Password -->
+    <div>
+      <div class="relative">
+        <input
+          type="password"
+          id="login-password"
+          formControlName="password"
+          placeholder=" "
+          class="peer w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none border-slate-200 transition-colors focus:border-[#00298d] focus:bg-white"
+          [class.!border-rose-500]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+        />
+        <span
+          class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 z-10 transition-colors duration-200 peer-focus:text-[#00298d]"
+          [class.!text-rose-500]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+        >
+          <i class="fa-solid fa-key text-sm"></i>
+        </span>
+        <label
+          for="login-password"
+          class="pointer-events-none absolute left-3.5 top-0 z-10 -translate-y-1/2 bg-white px-1.5 text-xs font-medium text-slate-600 transition-all duration-200 peer-placeholder-shown:left-11 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:bg-transparent peer-placeholder-shown:px-0 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal peer-placeholder-shown:text-slate-400 peer-focus:left-3.5 peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:bg-white peer-focus:px-1.5 peer-focus:text-xs peer-focus:font-medium peer-focus:text-[#00298d]"
+          [class.!text-rose-500]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+        >
+          Password
+        </label>
+      </div>
+      @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+        <div class="flex items-center p-4 mt-2 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+          <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+          </svg>
+          <span class="sr-only">Danger</span>
+          <div>
+            @if (loginForm.get('password')?.errors?.['required']) {
+              <span class="font-medium">Password is required.</span>
+            } @else if (loginForm.get('password')?.errors?.['minlength']) {
+              <span class="font-medium">Password must be at least 6 characters.</span>
+            } @else if (loginForm.get('password')?.errors?.['pattern']) {
+              <span class="font-medium">Password must start with a capital letter and include at least one special character.</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+
+
+    <!-- Submit Button -->
+    <button
+      type="submit"
+      routerLink="/timeline"
+      class="w-full rounded-xl py-3 text-base font-extrabold text-white disabled:opacity-60 bg-[#00298d] hover:bg-[#001f6b] cursor-pointer shadow-xs"
+    >
+      Log In
+    </button>
+    <div class="flex items-center justify-center">
+      <a routerLink="/forget" class="text-s text-[#00298d] hover:underline font-semibold cursor-pointer">
+        Forgot password?
+      </a>
+    </div>
+  </form>
+</div>

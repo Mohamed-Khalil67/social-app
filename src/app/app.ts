@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   imports: [RouterOutlet],
@@ -7,7 +8,14 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.css',
   templateUrl: './app.html',
 })
-export class App {
+export class App implements OnInit {
   protected readonly title = signal('social-media');
+
+  ngOnInit(): void {
+    if (typeof window !== 'undefined') {
+      initFlowbite();
+    }
+  }
 }
+
 

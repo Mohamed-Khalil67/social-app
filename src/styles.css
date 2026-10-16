@@ -1,5 +1,7 @@
 @import "tailwindcss";
-@import "primeicons/primeicons.css";
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
+
 
 /* Font: SN Pro */
 @import '@fontsource/sn-pro/400.css';

@@ -15,7 +15,7 @@ The `core` directory represents the foundation of the application. It houses sin
 
 ## Directory Breakdown
 
-### `guards/`
+### `auth/guards`
 Functional route guards using `CanActivateFn` or `CanMatchFn`.
 - **Purpose**: Protect routes against unauthenticated or unauthorized access.
 - **Examples**:
@@ -38,7 +38,7 @@ Global entity models, API contract responses, and TypeScript interfaces (`*.mode
   - `auth.model.ts`: `LoginCredentials`, `RegisterPayload`, `AuthTokenResponse`.
   - `api-response.model.ts`: Generic API wrapper type `ApiResponse<T>`.
 
-### `services/`
+### `auth/services`
 Global singleton services and reactive state managers.
 - **Purpose**: State storage and API communication for system-level operations.
 - **Angular Best Practices**:
@@ -47,5 +47,6 @@ Global singleton services and reactive state managers.
   - Use `httpResource()` or `HttpClient` for network communication.
 - **Examples**:
   - `auth.service.ts`: Manages authentication state, user session signal, login, and logout.
-  - `theme.service.ts`: Controls dark/light mode toggles and PrimeNG theme switches.
+  - `theme.service.ts`: Controls dark/light mode toggles and Tailwind theme switches.
   - `storage.service.ts`: Type-safe wrapper around `localStorage` and `sessionStorage`.
+

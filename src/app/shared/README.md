@@ -1,6 +1,6 @@
 # Shared Module (`src/app/shared`)
 
-The `shared` directory contains reusable, stateless, presentational UI building blocks, formatting pipes, custom directives, and PrimeNG UI wrapper components.
+The `shared` directory contains reusable, stateless, presentational UI building blocks, formatting pipes, custom directives, and Flowbite / Tailwind UI wrapper components.
 
 ---
 
@@ -39,7 +39,8 @@ Reusable DOM manipulation and behavioral directives.
   - `image-fallback.directive.ts`: Replaces broken images with a default placeholder.
 
 ### `ui/`
-PrimeNG pre-configured UI wrappers and custom Tailwind styled widgets.
+Flowbite and Tailwind styled widgets.
 - **Examples**:
-  - `button/`: Customized PrimeNG `p-button` with default styling and iconography.
+  - `button/`: Customized button with default styling and iconography.
   - `input/`: Standard text-box wrappers with floating labels and validation error display.
+

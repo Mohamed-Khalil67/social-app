@@ -1,4 +1,4 @@
-# Core Guards (`src/app/core/guards`)
+# Core Guards (``)
 
 Houses functional route guards that determine whether a navigation route can be activated, deactivated, or matched.
 

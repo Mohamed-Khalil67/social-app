@@ -1,4 +1,4 @@
-# Core Services (`src/app/core/services`)
+# Core Services (``)
 
 Houses application-wide singleton services. These services handle global state, authentication, external API communication, and browser API integrations.
 
