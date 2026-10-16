@@ -47,21 +47,15 @@
         </label>
       </div>
       @if (registerForm.get('name')?.invalid && registerForm.get('name')?.touched) {
-        <div class="flex items-center p-4 mt-2 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
-          <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-          </svg>
-          <span class="sr-only">Danger</span>
-          <div>
-            @if (registerForm.get('name')?.errors?.['required']) {
-              <span class="font-medium">Full name is required.</span>
-            } @else if (registerForm.get('name')?.errors?.['minlength']) {
-              <span class="font-medium">Full name must be at least 3 characters.</span>
-            } @else if (registerForm.get('name')?.errors?.['maxlength']) {
-              <span class="font-medium">Full name cannot exceed 30 characters.</span>
-            }
-          </div>
-        </div>
+        <p class="mt-1 text-xs text-rose-500 font-medium pl-1">
+          @if (registerForm.get('name')?.errors?.['required']) {
+            Full name is required.
+          } @else if (registerForm.get('name')?.errors?.['minlength']) {
+            Full name must be at least 3 characters.
+          } @else if (registerForm.get('name')?.errors?.['maxlength']) {
+            Full name cannot exceed 30 characters.
+          }
+        </p>
       }
     </div>
 
@@ -91,17 +85,11 @@
         </label>
       </div>
       @if (registerForm.get('username')?.invalid && registerForm.get('username')?.touched) {
-        <div class="flex items-center p-4 mt-2 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
-          <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-          </svg>
-          <span class="sr-only">Danger</span>
-          <div>
-            @if (registerForm.get('username')?.errors?.['required']) {
-              <span class="font-medium">Username is required.</span>
-            }
-          </div>
-        </div>
+        <p class="mt-1 text-xs text-rose-500 font-medium pl-1">
+          @if (registerForm.get('username')?.errors?.['required']) {
+            Username is required.
+          }
+        </p>
       }
     </div>
 
@@ -131,19 +119,13 @@
         </label>
       </div>
       @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
-        <div class="flex items-center p-4 mt-2 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
-          <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-          </svg>
-          <span class="sr-only">Danger</span>
-          <div>
-            @if (registerForm.get('email')?.errors?.['required']) {
-              <span class="font-medium">Email address is required.</span>
-            } @else if (registerForm.get('email')?.errors?.['email']) {
-              <span class="font-medium">Please enter a valid email address.</span>
-            }
-          </div>
-        </div>
+        <p class="mt-1 text-xs text-rose-500 font-medium pl-1">
+          @if (registerForm.get('email')?.errors?.['required']) {
+            Email address is required.
+          } @else if (registerForm.get('email')?.errors?.['email']) {
+            Please enter a valid email address.
+          }
+        </p>
       }
     </div>
 
@@ -175,15 +157,11 @@
         </label>
       </div>
       @if (registerForm.get('gender')?.invalid && registerForm.get('gender')?.touched) {
-        <div class="flex items-center p-4 mt-2 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
-          <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-          </svg>
-          <span class="sr-only">Danger</span>
-          <div>
-            <span class="font-medium">Please select your gender.</span>
-          </div>
-        </div>
+        <p class="mt-1 text-xs text-rose-500 font-medium pl-1">
+          @if (registerForm.get('gender')?.errors?.['required']) {
+            Please select your gender.
+          }
+        </p>
       }
     </div>
 
@@ -212,15 +190,11 @@
         </label>
       </div>
       @if (registerForm.get('dateOfBirth')?.invalid && registerForm.get('dateOfBirth')?.touched) {
-        <div class="flex items-center p-4 mt-2 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
-          <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-          </svg>
-          <span class="sr-only">Danger</span>
-          <div>
-            <span class="font-medium">Date of birth is required.</span>
-          </div>
-        </div>
+        <p class="mt-1 text-xs text-rose-500 font-medium pl-1">
+          @if (registerForm.get('dateOfBirth')?.errors?.['required']) {
+            Date of birth is required.
+          }
+        </p>
       }
     </div>
 
@@ -250,21 +224,15 @@
         </label>
       </div>
       @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
-        <div class="flex items-center p-4 mt-2 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
-          <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-          </svg>
-          <span class="sr-only">Danger</span>
-          <div>
-            @if (registerForm.get('password')?.errors?.['required']) {
-              <span class="font-medium">Password is required.</span>
-            } @else if (registerForm.get('password')?.errors?.['minlength']) {
-              <span class="font-medium">Password must be at least 6 characters.</span>
-            } @else if (registerForm.get('password')?.errors?.['pattern']) {
-              <span class="font-medium">Password must start with a capital letter and include at least one special character.</span>
-            }
-          </div>
-        </div>
+        <p class="mt-1 text-xs text-rose-500 font-medium pl-1">
+          @if (registerForm.get('password')?.errors?.['required']) {
+            Password is required.
+          } @else if (registerForm.get('password')?.errors?.['minlength']) {
+            Password must be at least 6 characters.
+          } @else if (registerForm.get('password')?.errors?.['pattern']) {
+            Password must start with a capital letter and include at least one special character.
+          }
+        </p>
       }
     </div>
 
@@ -294,19 +262,13 @@
         </label>
       </div>
       @if (registerForm.get('rePassword')?.touched && (registerForm.get('rePassword')?.errors?.['required'] || registerForm.errors?.['mismatch'])) {
-        <div class="flex items-center p-4 mt-2 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
-          <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-          </svg>
-          <span class="sr-only">Danger</span>
-          <div>
-            @if (registerForm.get('rePassword')?.errors?.['required']) {
-              <span class="font-medium">Confirm password is required.</span>
-            } @else if (registerForm.errors?.['mismatch']) {
-              <span class="font-medium">Passwords do not match.</span>
-            }
-          </div>
-        </div>
+        <p class="mt-1 text-xs text-rose-500 font-medium pl-1">
+          @if (registerForm.get('rePassword')?.errors?.['required']) {
+            Confirm password is required.
+          } @else if (registerForm.errors?.['mismatch']) {
+            Passwords do not match.
+          }
+        </p>
       }
     </div>
 
