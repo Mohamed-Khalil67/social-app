@@ -28,11 +28,11 @@ export class Login {
         next: (res) => {
           this.isLoading = false;
           console.log('login submission success: ', res);
-          const token = res.token || res.data?.token;
+          const token = res.data.token;
           if (token) {
             localStorage.setItem('userToken', token);
           }
-          this.router.navigate(['/timeline']);
+          this.router.navigate(['/timeline']).then(r => {});
         },
         error: (err) => {
           this.isLoading = false;

@@ -13,5 +13,9 @@ export class AuthService {
   signIn(data:object): Observable<any> {
     return this.http.post("https://route-posts.routemisr.com/users/signin",data)
   }
+
+  forgotPassword(data:object):Observable<any>{
+    return this.http.patch("https://route-posts.routemisr.com/users/forgot-password",data)
+  }
 }
 
