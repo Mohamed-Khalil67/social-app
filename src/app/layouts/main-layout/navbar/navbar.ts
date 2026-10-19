@@ -30,6 +30,7 @@ export class Navbar {
 
   onLogout(): void {
     this.closeMenu();
+    localStorage.removeItem('userToken');
     this.router.navigate(['/login']);
   }
 }
