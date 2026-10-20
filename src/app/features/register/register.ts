@@ -1,5 +1,5 @@
 import {Component, inject} from '@angular/core';
-import { RouterLink } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {
   AbstractControl,
   FormControl,
@@ -25,9 +25,9 @@ export function passwordMatchValidator(control: AbstractControl): ValidationErro
   templateUrl: './register.html',
 })
 export class Register {
-
   private authService = inject(AuthService);
-
+  private readonly router = inject(Router);
+  isLoading:boolean = false;
   registerForm: FormGroup = new FormGroup(
     {
       name: new FormControl('', [
@@ -52,6 +52,7 @@ export class Register {
   onRegister(): void {
     if (this.registerForm.valid) {
       console.log('Register Form Submitted data sent:',  this.registerForm.value);
+      this.isLoading = true
       this.authService.signUp(this.registerForm.value).subscribe({
         next: (value) => {
           console.log('response:',value);
@@ -60,11 +61,13 @@ export class Register {
           console.log(err.message);
         },
         complete: () => {
+          this.router.navigateByUrl('/login');
           console.log('complete of subscribe:',this.registerForm.value);
         }
       })
     } else {
       console.log('Register Form Not Submitted:', this.registerForm);
+      this.isLoading = false
       // this.registerForm.getRawValue() , can get me a disabled
       this.registerForm.markAllAsTouched();
     }

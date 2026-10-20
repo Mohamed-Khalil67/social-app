@@ -8,6 +8,7 @@ import {Profile} from './features/profile/profile';
 import {Changepassword} from './features/changepassword/changepassword';
 import {Notfound} from './features/notfound/notfound';
 import {Notifications} from './features/notifications/notifications';
+import {Suggestions} from './features/suggestions/suggestions';
 import {Settings} from './features/settings/settings';
 
 export const routes: Routes = [
@@ -20,6 +21,7 @@ export const routes: Routes = [
       {path:'timeline', component:Timeline},
       {path:'profile', component:Profile},
       {path:'notifications', component:Notifications},
+      {path:'suggestions', component:Suggestions},
       {path:'settings', component:Settings},
       {path:'change',component:Changepassword}
     ]},

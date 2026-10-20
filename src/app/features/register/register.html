@@ -275,9 +275,14 @@
     <!-- Submit Button -->
     <button
       type="submit"
+      [disabled]="isLoading"
       class="w-full rounded-xl py-3 text-base font-extrabold text-white disabled:opacity-60 bg-[#00298d] hover:bg-[#001f6b] cursor-pointer shadow-xs"
     >
-      Create New Account
+      @if (isLoading) {
+        <span class="bg-blue-400 text-shadow-slate-500">Creating account...</span>
+      } @else {
+        <span>Create New Account</span>
+      }
     </button>
   </form>
 </div>
