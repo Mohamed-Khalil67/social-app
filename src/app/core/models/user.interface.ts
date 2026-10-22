@@ -16,3 +16,23 @@ export interface UserProfile {
   createdAt?: string;
 }
 
+export interface SuggestedUser {
+  _id: string;
+  name: string;
+  username: string;
+  photo: string;
+  followersCount: number;
+  mutualFollowersCount: number;
+  isFollowing?: boolean;
+}
+
+export interface SuggestedPaginationInfo {
+  currentPage: number;
+  limit: number;
+  nextPage?: number | null;
+  numberOfPages: number;
+  total: number;
+}
+
+
+

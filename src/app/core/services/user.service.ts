@@ -1,7 +1,7 @@
 import {inject, Service, signal} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {UserProfile} from '../models/user.interface';
+import {SuggestedPaginationInfo, SuggestedUser, UserProfile} from '../models/user.interface';
 
 @Service()
 export class UserService {
@@ -10,8 +10,12 @@ export class UserService {
 
   readonly userProfile = signal<UserProfile | null>(null)
 
-  getSuggestions():Observable<any> {
-    return this.http.get(`${this.baseUrl}/suggestions`);
+  getSuggestions(page: number = 1, limit: number = 10):Observable<{data: {suggestions: SuggestedUser[]}; meta?: {pagination?: SuggestedPaginationInfo}}> {
+    const params = new HttpParams().set('page', page.toString()).set('limit', limit.toString());
+    return this.http.get<{
+      data: { suggestions: SuggestedUser[] };
+      meta?: { pagination?: SuggestedPaginationInfo };
+    }>(`${this.baseUrl}/suggestions`,{params});
   }
 
   toggleFollowUser(userId:string):Observable<any>{

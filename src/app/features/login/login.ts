@@ -26,7 +26,6 @@ export class Login {
       console.log('Login Form Submitted:', this.loginForm.value);
       this.authService.signIn(this.loginForm.value).subscribe({
         next: (res) => {
-          this.isLoading = false;
           console.log('login submission success: ', res);
           const token = res.data.token;
           if (token) {
@@ -40,6 +39,7 @@ export class Login {
         },
         complete: () => {
           console.log('login completed: ', this.loginForm.value);
+          this.isLoading = false;
         },
       });
     } else {
