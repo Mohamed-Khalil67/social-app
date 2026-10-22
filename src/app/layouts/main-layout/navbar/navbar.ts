@@ -12,7 +12,7 @@ export class Navbar implements OnInit {
   private readonly router = inject(Router);
   private readonly elementRef = inject(ElementRef);
   private readonly userService = inject(UserService);
-  userProfile = signal<any>(null)
+  userProfile = this.userService.userProfile;
 
   ngOnInit() {
     this.userService.getMyProfileData().subscribe({

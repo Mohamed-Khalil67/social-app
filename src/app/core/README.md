@@ -38,14 +38,20 @@ Global entity models, API contract responses, and TypeScript interfaces (`*.mode
   - `auth.model.ts`: `LoginCredentials`, `RegisterPayload`, `AuthTokenResponse`.
   - `api-response.model.ts`: Generic API wrapper type `ApiResponse<T>`.
 
-### `auth/services`
+### `auth/services` & `services/`
 Global singleton services and reactive state managers.
 - **Purpose**: State storage and API communication for system-level operations.
 - **Angular Best Practices**:
   - Use `inject()` instead of constructor injection.
   - Manage state reactively using Angular Signals (`signal()`, `computed()`, `linkedSignal()`).
+  - **State Mutations**:
+    - Use `computed()` for derived state that auto-updates when *other* signals change.
+    - Use `.set()` for complete state overwrites where previous value does not matter.
+    - Use `.update()` when producing the next state depends on current state (e.g., patching a user's photo without losing name/email).
+    - Expose state as `signal.asReadonly()` from services; only the service executes `.set()` or `.update()`.
   - Use `httpResource()` or `HttpClient` for network communication.
 - **Examples**:
+  - `user.service.ts`: Manages `userProfile` signal, profile updates, and photo uploads.
   - `auth.service.ts`: Manages authentication state, user session signal, login, and logout.
   - `theme.service.ts`: Controls dark/light mode toggles and Tailwind theme switches.
   - `storage.service.ts`: Type-safe wrapper around `localStorage` and `sessionStorage`.
