@@ -1,0 +1,21 @@
+import {inject, Service} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+
+@Service()
+export class UserService {
+  private http = inject(HttpClient);
+  baseUrl = "https://route-posts.routemisr.com/users"
+
+  getSuggestions():Observable<any> {
+    return this.http.get(`${this.baseUrl}/suggestions`);
+  }
+
+  toggleFollowUser(userId:string):Observable<any>{
+    return this.http.put(`${this.baseUrl}/${userId}/follow`, {})
+  }
+
+  getMyProfileData():Observable<any> {
+    return this.http.get(`${this.baseUrl}/profile-data`);
+  }
+}

@@ -1,5 +1,6 @@
-import { Component, ElementRef, HostListener, inject, signal } from '@angular/core';
+import {Component, ElementRef, HostListener, inject, OnInit, signal} from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import {UserService} from '../../../core/services/user.service';
 
 @Component({
   imports: [RouterLink, RouterLinkActive],
@@ -7,9 +8,24 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './navbar.css',
   templateUrl: './navbar.html',
 })
-export class Navbar {
+export class Navbar implements OnInit {
   private readonly router = inject(Router);
   private readonly elementRef = inject(ElementRef);
+  private readonly userService = inject(UserService);
+  userProfile = signal<any>(null)
+
+  ngOnInit() {
+    this.userService.getMyProfileData().subscribe({
+      next: res => {
+        console.log(res);
+        this.userProfile.set(res.data.user)
+      },
+      error: err => {
+        console.log(err.message);
+      },
+      complete: () => {}
+    })
+  }
 
   readonly isMenuOpen = signal<boolean>(false);
 
