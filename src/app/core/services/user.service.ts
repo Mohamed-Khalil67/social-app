@@ -2,11 +2,12 @@ import {inject, Service, signal} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {SuggestedPaginationInfo, SuggestedUser, UserProfile} from '../models/user.interface';
+import {environment} from '../../../environments/environment';
 
 @Service()
 export class UserService {
   private http = inject(HttpClient);
-  baseUrl = "https://route-posts.routemisr.com/users"
+  baseUrl = `${environment.baseUrl}/users`;
 
   readonly userProfile = signal<UserProfile | null>(null)
 

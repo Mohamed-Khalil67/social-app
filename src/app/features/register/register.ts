@@ -10,13 +10,7 @@ import {
 } from '@angular/forms';
 import {AuthService} from '../../core/auth/services/auth.service';
 
-export function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
-  const password = control.get('password')?.value;
-  const rePassword = control.get('rePassword')?.value;
-  return password && rePassword && password !== rePassword
-    ? { mismatch: true }
-    : null;
-}
+
 
 @Component({
   imports: [RouterLink, ReactiveFormsModule],
@@ -46,7 +40,7 @@ export class Register {
       ]),
       rePassword: new FormControl('', [Validators.required]),
     },
-    { validators: [passwordMatchValidator] }
+    { validators: [this.passwordMatchValidator] }
   );
 
   onRegister(): void {
@@ -71,6 +65,14 @@ export class Register {
       // this.registerForm.getRawValue() , can get me a disabled
       this.registerForm.markAllAsTouched();
     }
+  }
+
+  passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const password = control.get('password')?.value;
+    const rePassword = control.get('rePassword')?.value;
+    return password && rePassword && password !== rePassword
+      ? { mismatch: true }
+      : null;
   }
 }
 

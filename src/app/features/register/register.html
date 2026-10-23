@@ -261,6 +261,8 @@
           Confirm password
         </label>
       </div>
+<!--      • && means: "Only show the red box if the field is empty AND at the same time contains a mismatched password." (Impossible → never shows).-->
+<!--      • || means: "Show the red box if the field is empty OR if the passwords do not match." (Correct → shows the right message for each case).-->
       @if (registerForm.get('rePassword')?.touched && (registerForm.get('rePassword')?.errors?.['required'] || registerForm.errors?.['mismatch'])) {
         <p class="mt-1 text-xs text-rose-500 font-medium pl-1">
           @if (registerForm.get('rePassword')?.errors?.['required']) {
