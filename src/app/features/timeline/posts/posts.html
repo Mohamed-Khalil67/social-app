@@ -178,7 +178,11 @@
                   <path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"></path>
                   <circle cx="12" cy="12" r="10"></circle>
                 </svg>
-                {{ post.privacy || 'Public' }}
+                <select class="bg-transparent outline-none cursor-pointer">
+                  <option [selected]="post.privacy === 'public'" value="public">Public</option>
+                  <option [selected]="post.privacy === 'followers'" value="following">Followers</option>
+                  <option [selected]="post.privacy === 'only-me'" value="only_me">Only me</option>
+                </select>
               </span>
             </div>
           </div>
@@ -229,7 +233,7 @@
                 <path d="M7 10v12"></path>
               </svg>
             </span>
-            <span class="font-semibold">{{ post.likesCount ?? post.likes?.length ?? 0 }} likes</span>
+            <span class="font-semibold">{{ post.likesCount }} likes</span>
           </div>
           <div class="flex flex-wrap items-center gap-2 text-xs sm:gap-3 sm:text-sm">
             <span class="inline-flex items-center gap-1">
@@ -239,10 +243,10 @@
                 <path d="m22 15-3 3-3-3"></path>
                 <path d="M11 6h6a2 2 0 0 1 2 2v10"></path>
               </svg>
-              {{ post.sharesCount ?? 0 }} shares
+              {{ post.sharesCount }} shares
             </span>
-            <span>{{ post.commentsCount ?? 0 }} comments</span>
-            <button type="button" class="rounded-md px-2 py-1 text-xs font-bold text-[#1877f2] hover:bg-[#e7f3ff] cursor-pointer">
+            <span>{{ post.commentsCount }} comments</span>
+            <button [routerLink]="['/posts', post.id]" type="button" class="rounded-md px-2 py-1 text-xs font-bold text-[#1877f2] hover:bg-[#e7f3ff] cursor-pointer">
               View details
             </button>
           </div>

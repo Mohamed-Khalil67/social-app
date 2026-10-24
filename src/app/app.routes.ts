@@ -12,6 +12,7 @@ import {Suggestions} from './features/suggestions/suggestions';
 import {Settings} from './features/settings/settings';
 import {authGuard} from './core/auth/guards/auth-guard';
 import {guestGuard} from './core/auth/guards/guest-guard';
+import {PostDetails} from './features/timeline/posts/post-details/post-details';
 
 export const routes: Routes = [
   {path:'', redirectTo: 'login', pathMatch: 'full'},
@@ -25,7 +26,8 @@ export const routes: Routes = [
       {path:'notifications', component:Notifications},
       {path:'suggestions', component:Suggestions},
       {path:'settings', component:Settings},
-      {path:'change',component:Changepassword}
+      {path:'change',component:Changepassword},
+      {path:'posts/:id', component: PostDetails},
     ]},
   {path:'**', component:Notfound}
 ];

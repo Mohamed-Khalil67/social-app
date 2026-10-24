@@ -1,4 +1,4 @@
-export type PostPrivacy = 'public' | 'following' | 'only_me';
+export type PostPrivacy = 'public' | 'following' | 'only_me' | 'only-me' | 'followers';
 
 export interface PostCreator {
   _id: string;
@@ -13,10 +13,14 @@ export interface PostComment {
   commentCreator: PostCreator;
   createdAt: string;
   image?: string | object;
+  likes?: string[];
+  likesCount?: number;
+  repliesCount?: number;
 }
 
 export interface Post {
   _id: string;
+  id?: string;
   body?: string;
   image?: string | object;
   user: PostCreator;
@@ -26,6 +30,9 @@ export interface Post {
   commentsCount?: number;
   sharesCount?: number;
   comments?: PostComment[];
+  topComment?: PostComment;
+  likes?: string[];
+  bookmarked?: boolean;
 }
 
 export interface CreatePostPayload {
