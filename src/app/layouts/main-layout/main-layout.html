@@ -1,6 +1,8 @@
-<div class="min-h-screen flex flex-col">
+<div class="min-h-screen flex flex-col bg-[#f0f2f5]">
   <app-navbar class="sticky top-0 z-50 block"></app-navbar>
-  <main class="flex-1">
-    <router-outlet></router-outlet>
-  </main>
+  <div class="mx-auto w-full max-w-7xl flex-1 px-3 py-3.5">
+    <main class="min-w-0">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
 </div>

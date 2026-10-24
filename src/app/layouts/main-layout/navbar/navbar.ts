@@ -1,6 +1,7 @@
 import {Component, ElementRef, HostListener, inject, OnInit, signal} from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import {UserService} from '../../../core/services/user.service';
+import {AuthService} from '../../../core/auth/services/auth.service';
 
 @Component({
   imports: [RouterLink, RouterLinkActive],
@@ -12,6 +13,7 @@ export class Navbar implements OnInit {
   private readonly router = inject(Router);
   private readonly elementRef = inject(ElementRef);
   private readonly userService = inject(UserService);
+  private readonly authService = inject(AuthService);
   userProfile = this.userService.userProfile;
 
   ngOnInit() {
@@ -44,9 +46,9 @@ export class Navbar implements OnInit {
     }
   }
 
+
   onLogout(): void {
     this.closeMenu();
-    localStorage.removeItem('userToken');
-    this.router.navigate(['/login']);
+    this.authService.signOut();
   }
 }

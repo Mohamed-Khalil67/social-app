@@ -11,7 +11,6 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
   templateUrl: './suggestions.html',
 })
 export class Suggestions implements OnInit {
-  private readonly destroyRef = inject(DestroyRef);
   private readonly userService = inject(UserService);
 
   // Directly store your domain data
@@ -44,7 +43,7 @@ export class Suggestions implements OnInit {
   }
 
   onFollow(user: SuggestedUser){
-    this.userService.toggleFollowUser(user._id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.userService.toggleFollowUser(user._id).subscribe({
       next:(res) => {
         this.suggestions.update(currentUsers =>
           currentUsers.map(u => u._id === user._id ? { ...u, isFollowing: !u.isFollowing} : u))
@@ -59,13 +58,12 @@ export class Suggestions implements OnInit {
 
   onLoadMore(){
     const nextPage = this.pagination()?.nextPage;
-
     // 1. Guard against duplicate calls or when there are no more pages
     if (this.isLoading() || !nextPage) {
       return;
     }
 
-    this.userService.getSuggestions(nextPage, 10).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.userService.getSuggestions(nextPage, 10).subscribe({
       next:(res) => {
         const newUsers = res.data.suggestions;
         this.suggestions.update(currentUsers =>
