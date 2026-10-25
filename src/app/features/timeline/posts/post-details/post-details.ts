@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {PostService} from '../services/post.service';
+import {Post} from '../../../../core/models/post.interface';
 
 @Component({
   imports: [],
@@ -6,4 +9,28 @@ import { Component } from '@angular/core';
   styleUrl: './post-details.css',
   templateUrl: './post-details.html',
 })
-export class PostDetails {}
+export class PostDetails implements OnInit {
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly postService = inject(PostService);
+
+  postData = signal<Post | null>(null);
+
+  ngOnInit() {
+    this.activatedRoute.paramMap.subscribe({
+      next: (params) => {
+        const postId = params.get('id');
+        if (postId) {
+          this.postService.getSinglePost(postId).subscribe({
+            next: (res) => {
+              this.postData.set(res.data?.post || res.post || res);
+            },
+            error: (err) => {
+              console.error('Failed to load post details:', err);
+            }
+          });
+        }
+      }
+    });
+  }
+
+}

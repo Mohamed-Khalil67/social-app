@@ -246,7 +246,7 @@
               {{ post.sharesCount }} shares
             </span>
             <span>{{ post.commentsCount }} comments</span>
-            <button [routerLink]="['/posts', post.id]" type="button" class="rounded-md px-2 py-1 text-xs font-bold text-[#1877f2] hover:bg-[#e7f3ff] cursor-pointer">
+            <button [routerLink]="['/posts', post._id || post.id]" type="button" class="rounded-md px-2 py-1 text-xs font-bold text-[#1877f2] hover:bg-[#e7f3ff] cursor-pointer">
               View details
             </button>
           </div>

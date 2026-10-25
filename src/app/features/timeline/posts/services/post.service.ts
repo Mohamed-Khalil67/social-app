@@ -2,7 +2,7 @@ import { inject, Service } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
-import {Post} from '../model/post.interface';
+import {Post} from '../../../../core/models/post.interface';
 
 @Service()
 export class PostService {
@@ -18,9 +18,9 @@ export class PostService {
     return this.http.get(environment.baseUrl + '/posts', this.headers);
   }
 
-  getHomeFeed(only: string, limit: number): Observable<any> {
-    const params = new HttpParams();
-    return this.http.get(environment.baseUrl + '/feed', { params });
+  getHomeFeed(only: string = '',page: number = 1, limit: number = 10): Observable<any> {
+    const params = { only,page,limit };
+    return this.http.get(environment.baseUrl + '/posts/feed', {params});
   }
 
   getSinglePost(postId: string): Observable<any> {

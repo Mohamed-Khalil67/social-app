@@ -1,4 +1,5 @@
-export type PostPrivacy = 'public' | 'following' | 'only_me' | 'only-me' | 'followers';
+export type PostPrivacy = 'public' | 'following' | 'only_me';
+export type FeedFilter = 'all' | 'following' | 'me' | '';
 
 export interface PostCreator {
   _id: string;
@@ -39,4 +40,12 @@ export interface CreatePostPayload {
   body?: string;
   privacy: PostPrivacy;
   image?: File | object | null;
+}
+
+export interface PostPaginationInfo {
+  currentPage: number;
+  limit: number;
+  nextPage?: number | null;
+  numberOfPages: number;
+  total: number;
 }
