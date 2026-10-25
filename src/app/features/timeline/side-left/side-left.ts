@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
+import {PostService} from '../posts/services/post.service';
 
 @Component({
   imports: [],
@@ -6,4 +7,10 @@ import { Component } from '@angular/core';
   styleUrl: './side-left.css',
   templateUrl: './side-left.html',
 })
-export class SideLeft {}
+export class SideLeft {
+  readonly postService = inject(PostService);
+
+  onSelect(filter: string) {
+    this.postService.setFilter(filter);
+  }
+}
