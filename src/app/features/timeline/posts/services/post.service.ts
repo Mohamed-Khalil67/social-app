@@ -38,7 +38,7 @@ export class PostService {
     return this.http.delete(environment.baseUrl + `/posts/${postId}`, this.headers);
   }
 
-  createPost(data:Post): Observable<any> {
+  createPost(data:FormData): Observable<any> {
     return this.http.post(environment.baseUrl + '/posts/',data, this.headers);
   }
 }

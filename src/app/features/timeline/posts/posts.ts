@@ -2,11 +2,13 @@ import {Component, computed, effect, HostListener, inject, OnInit, signal, untra
 import {PostService} from './services/post.service';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {Post, PostPaginationInfo} from '../../../core/models/post.interface';
+import {CreatePost} from './create-post/create-post';
 
 
 @Component({
   imports: [
-    RouterLink
+    RouterLink,
+    CreatePost
   ],
   selector: 'app-posts',
   styleUrl: './posts.css',
@@ -87,4 +89,8 @@ export class Posts implements OnInit {
       this.getPostsData();
     }
   }
+
+  onDeletePost(){}
+
+  onEditPost(){}
 }

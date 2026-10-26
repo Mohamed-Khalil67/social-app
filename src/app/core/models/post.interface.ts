@@ -37,9 +37,9 @@ export interface Post {
 }
 
 export interface CreatePostPayload {
-  body?: string;
+  body: string;
   privacy: PostPrivacy;
-  image?: File | object | null;
+  image: File | object | null;
 }
 
 export interface PostPaginationInfo {
