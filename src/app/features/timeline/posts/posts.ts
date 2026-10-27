@@ -55,7 +55,7 @@ export class Posts implements OnInit {
 
     this.postService.getHomeFeed(this.postService.activeFilter(),this.page(), 10).subscribe({
       next: res => {
-        const currentPosts = res.data.posts;
+        const currentPosts = res.data?.posts || res.posts || [];
         console.log(res);
 
         if(currentPosts.length === 0){
@@ -87,6 +87,12 @@ export class Posts implements OnInit {
 
     if (bottomReached) {
       this.getPostsData();
+    }
+  }
+
+  onPostCreated(newPost: Post): void {
+    if (newPost) {
+      this.posts.update((current) => [newPost, ...current]);
     }
   }
 

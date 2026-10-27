@@ -86,7 +86,7 @@
   </button>
 </div>
 
-<app-create-post></app-create-post>
+<app-create-post (postCreated)="onPostCreated($event)"></app-create-post>
 
 <!-- Posts List Container -->
 <div class="space-y-4">

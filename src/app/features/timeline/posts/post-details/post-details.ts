@@ -22,7 +22,7 @@ export class PostDetails implements OnInit {
         if (postId) {
           this.postService.getSinglePost(postId).subscribe({
             next: (res) => {
-              this.postData.set(res.data?.post || res.post || res);
+              this.postData.set(res.data?.post || res.post || null);
             },
             error: (err) => {
               console.error('Failed to load post details:', err);
