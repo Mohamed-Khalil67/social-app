@@ -3,6 +3,7 @@ import {PostService} from './services/post.service';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {Post, PostPaginationInfo} from '../../../core/models/post.interface';
 import {CreatePost} from './create-post/create-post';
+import {Observable} from 'rxjs';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class Posts implements OnInit {
   readonly page = signal<number>(1);
   readonly isLoading = signal<boolean>(false);
   readonly hasMore = signal<boolean>(true);
-
+  editingPost = signal<Post | null>(null)
   posts = signal<Post[]>([]);
 
   constructor() {
@@ -96,7 +97,11 @@ export class Posts implements OnInit {
     }
   }
 
-  onDeletePost(){}
+  onEditPost(post: Post){
+    this.editingPost.set(post);
+    // Why? Setting the entire post into this.editingPost means your edit UI immediately has access to the post's ID, existing text (post.body), current
+    // image, and privacy without having to search the array or make another network request!
 
-  onEditPost(){}
+
+  }
 }

@@ -34,8 +34,8 @@ export class PostService {
     return this.http.get(environment.baseUrl + `/posts/${postId}`, this.headers);
   }
 
-  deletePost(postId: string): Observable<any> {
-    return this.http.delete(environment.baseUrl + `/posts/${postId}`, this.headers);
+  editPost(postId: string, data:FormData): Observable<any> {
+    return this.http.put(environment.baseUrl + `/posts/${postId}`, data, this.headers);
   }
 
   createPost(data:FormData): Observable<any> {
