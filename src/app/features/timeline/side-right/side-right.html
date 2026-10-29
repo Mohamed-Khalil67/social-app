@@ -28,169 +28,45 @@
   </div>
 
   <div class="space-y-3">
-    <!-- User 1 -->
-    <div class="rounded-xl border border-slate-200 p-2.5">
-      <div class="flex items-center justify-between gap-2">
-        <button type="button" class="flex min-w-0 items-center gap-2 rounded-lg px-1 py-1 text-left transition hover:bg-slate-50 cursor-pointer">
-          <img
-            alt="Ahmed Abd Al-Muti"
-            class="h-10 w-10 rounded-full object-cover"
-            src="https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/1775310477363-9f97d1ff-699a-4b66-a04f-bd6dee14d2b7-496835614_1859398661547861_5183785968671576388_n.webp"
-          />
-          <div class="min-w-0">
-            <p class="truncate text-sm font-bold text-slate-900 hover:underline">Ahmed Abd Al-Muti</p>
-            <p class="truncate text-xs text-slate-500">@ahmedmutti</p>
+    @for (user of suggestedUsers(); track user._id){
+      <div class="rounded-xl border border-slate-200 p-2.5">
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex min-w-0 items-center gap-2">
+            <img
+              [alt]="user.name"
+              class="h-10 w-10 rounded-full object-cover"
+              [src]="user.photo || 'https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/default-profile.png'"
+            />
+            <div class="min-w-0">
+              <p class="truncate text-sm font-bold text-slate-900">{{ user.name }}</p>
+              <p class="truncate text-xs text-slate-500">&#64;{{ user.username }}</p>
+            </div>
           </div>
-        </button>
-        <button
-          type="button"
-          class="inline-flex cursor-pointer items-center gap-1 rounded-full px-3 py-1.5 text-xs font-bold transition disabled:opacity-60 bg-[#e7f3ff] text-[#1877f2] hover:bg-[#d8ebff]"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-plus" aria-hidden="true">
-            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <line x1="19" x2="19" y1="8" y2="14"></line>
-            <line x1="22" x2="16" y1="11" y2="11"></line>
-          </svg>
-          Follow
-        </button>
-      </div>
-      <div class="mt-2 flex items-center gap-2 text-[11px] font-semibold text-slate-500">
-        <span class="rounded-full bg-slate-100 px-2 py-0.5">444 followers</span>
-      </div>
-    </div>
 
-    <!-- User 2 -->
-    <div class="rounded-xl border border-slate-200 p-2.5">
-      <div class="flex items-center justify-between gap-2">
-        <button type="button" class="flex min-w-0 items-center gap-2 rounded-lg px-1 py-1 text-left transition hover:bg-slate-50 cursor-pointer">
-          <img
-            alt="Alaa Ashraf"
-            class="h-10 w-10 rounded-full object-cover"
-            src="https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/1775412292104-abcb6dbf-b0cd-4392-8084-3dc4d79abf8d-profile.webp"
-          />
-          <div class="min-w-0">
-            <p class="truncate text-sm font-bold text-slate-900 hover:underline">Alaa Ashraf</p>
-            <p class="truncate text-xs text-slate-500">@alaaashraf</p>
-          </div>
-        </button>
-        <button
-          type="button"
-          class="inline-flex cursor-pointer items-center gap-1 rounded-full px-3 py-1.5 text-xs font-bold transition disabled:opacity-60 bg-[#e7f3ff] text-[#1877f2] hover:bg-[#d8ebff]"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-plus" aria-hidden="true">
-            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <line x1="19" x2="19" y1="8" y2="14"></line>
-            <line x1="22" x2="16" y1="11" y2="11"></line>
-          </svg>
-          Follow
-        </button>
-      </div>
-      <div class="mt-2 flex items-center gap-2 text-[11px] font-semibold text-slate-500">
-        <span class="rounded-full bg-slate-100 px-2 py-0.5">367 followers</span>
-      </div>
-    </div>
+          <button
+            type="button"
+            (click)="onFollow(user)"
+            class="inline-flex cursor-pointer items-center gap-1 rounded-full px-3 py-1.5 text-xs font-bold transition"
+            [class]="user.isFollowing
+                ? 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                : 'bg-[#e7f3ff] text-[#1877f2] hover:bg-[#d8ebff]'"
+          >
+            {{ user.isFollowing ? 'Following' : '+ Follow' }}
+          </button>
+        </div>
 
-    <!-- User 3 -->
-    <div class="rounded-xl border border-slate-200 p-2.5">
-      <div class="flex items-center justify-between gap-2">
-        <button type="button" class="flex min-w-0 items-center gap-2 rounded-lg px-1 py-1 text-left transition hover:bg-slate-50 cursor-pointer">
-          <img
-            alt="MrMo"
-            class="h-10 w-10 rounded-full object-cover"
-            src="https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linked-posts/1778937681231-9d4544cb-667c-4af2-95fe-78ac83b54f55-profile.webp"
-          />
-          <div class="min-w-0">
-            <p class="truncate text-sm font-bold text-slate-900 hover:underline">MrMo</p>
-            <p class="truncate text-xs text-slate-500">@mrmo</p>
-          </div>
-        </button>
-        <button
-          type="button"
-          class="inline-flex cursor-pointer items-center gap-1 rounded-full px-3 py-1.5 text-xs font-bold transition disabled:opacity-60 bg-[#e7f3ff] text-[#1877f2] hover:bg-[#d8ebff]"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-plus" aria-hidden="true">
-            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <line x1="19" x2="19" y1="8" y2="14"></line>
-            <line x1="22" x2="16" y1="11" y2="11"></line>
-          </svg>
-          Follow
-        </button>
+        <div class="mt-2 flex items-center gap-2 text-[11px] font-semibold text-slate-500">
+          <span class="rounded-full bg-slate-100 px-2 py-0.5">{{ user.followersCount }} followers</span>
+        </div>
       </div>
-      <div class="mt-2 flex items-center gap-2 text-[11px] font-semibold text-slate-500">
-        <span class="rounded-full bg-slate-100 px-2 py-0.5">293 followers</span>
-      </div>
-    </div>
-
-    <!-- User 4 -->
-    <div class="rounded-xl border border-slate-200 p-2.5">
-      <div class="flex items-center justify-between gap-2">
-        <button type="button" class="flex min-w-0 items-center gap-2 rounded-lg px-1 py-1 text-left transition hover:bg-slate-50 cursor-pointer">
-          <img
-            alt="menna"
-            class="h-10 w-10 rounded-full object-cover"
-            src="https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/default-profile.png"
-          />
-          <div class="min-w-0">
-            <p class="truncate text-sm font-bold text-slate-900 hover:underline">menna</p>
-            <p class="truncate text-xs text-slate-500">@gbngssssb</p>
-          </div>
-        </button>
-        <button
-          type="button"
-          class="inline-flex cursor-pointer items-center gap-1 rounded-full px-3 py-1.5 text-xs font-bold transition disabled:opacity-60 bg-[#e7f3ff] text-[#1877f2] hover:bg-[#d8ebff]"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-plus" aria-hidden="true">
-            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <line x1="19" x2="19" y1="8" y2="14"></line>
-            <line x1="22" x2="16" y1="11" y2="11"></line>
-          </svg>
-          Follow
-        </button>
-      </div>
-      <div class="mt-2 flex items-center gap-2 text-[11px] font-semibold text-slate-500">
-        <span class="rounded-full bg-slate-100 px-2 py-0.5">232 followers</span>
-      </div>
-    </div>
-
-    <!-- User 5 -->
-    <div class="rounded-xl border border-slate-200 p-2.5">
-      <div class="flex items-center justify-between gap-2">
-        <button type="button" class="flex min-w-0 items-center gap-2 rounded-lg px-1 py-1 text-left transition hover:bg-slate-50 cursor-pointer">
-          <img
-            alt="abdalla diaa"
-            class="h-10 w-10 rounded-full object-cover"
-            src="https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/1776007886436-57b1a765-2eec-4b09-9f80-6fa91a44ca94-qDEuDVfUSjCOIqgqwpn0pA.webp"
-          />
-          <div class="min-w-0">
-            <p class="truncate text-sm font-bold text-slate-900 hover:underline">abdalla diaa</p>
-            <p class="truncate text-xs text-slate-500">@abdalla_diaa</p>
-          </div>
-        </button>
-        <button
-          type="button"
-          class="inline-flex cursor-pointer items-center gap-1 rounded-full px-3 py-1.5 text-xs font-bold transition disabled:opacity-60 bg-[#e7f3ff] text-[#1877f2] hover:bg-[#d8ebff]"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-plus" aria-hidden="true">
-            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <line x1="19" x2="19" y1="8" y2="14"></line>
-            <line x1="22" x2="16" y1="11" y2="11"></line>
-          </svg>
-          Follow
-        </button>
-      </div>
-      <div class="mt-2 flex items-center gap-2 text-[11px] font-semibold text-slate-500">
-        <span class="rounded-full bg-slate-100 px-2 py-0.5">227 followers</span>
-      </div>
-    </div>
+    } @empty {
+      <p class="text-xs text-slate-400 text-center py-3">No suggestions found.</p>
+    }
   </div>
 
   <button
     type="button"
+    routerLink="/suggestions"
     class="mt-3 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-100"
   >
     View more

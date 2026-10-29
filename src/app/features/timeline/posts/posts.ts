@@ -1,24 +1,26 @@
 import {Component, computed, effect, HostListener, inject, OnInit, signal, untracked} from '@angular/core';
 import {PostService} from './services/post.service';
-import {ActivatedRoute, RouterLink} from '@angular/router';
-import {Post, PostPaginationInfo} from '../../../core/models/post.interface';
+import { RouterLink} from '@angular/router';
+import {Post} from '../../../core/models/post.interface';
 import {CreatePost} from './create-post/create-post';
-import {Observable} from 'rxjs';
-
+import {UserService} from '../../../core/services/user.service';
+import {EditPost} from './edit-post/edit-post';
 
 @Component({
   imports: [
     RouterLink,
-    CreatePost
+    CreatePost,
+    EditPost
   ],
   selector: 'app-posts',
   styleUrl: './posts.css',
   templateUrl: './posts.html',
 })
-export class Posts implements OnInit {
+export class Posts{
   readonly postService = inject(PostService);
-  private activatedRoute = inject(ActivatedRoute);
+  readonly userService = inject(UserService);
 
+  readonly userProfile = this.userService.userProfile;
   readonly page = signal<number>(1);
   readonly isLoading = signal<boolean>(false);
   readonly hasMore = signal<boolean>(true);
@@ -27,21 +29,20 @@ export class Posts implements OnInit {
 
   constructor() {
     effect(() => {
-      const filter = this.postService.activeFilter();
-      // untracked ensures signals updated inside don't trigger an infinite loop
+      // Reacts whenever the filter changes (and runs once initially on startup!)
+      this.postService.activeFilter();
       untracked(() => {
-        this.resetAndFetch(filter);
+        this.resetAndFetch();
       });
     });
   }
 
-  ngOnInit() {}
-
   onSelect(filter: string): void {
     this.postService.setFilter(filter);
+    this.resetAndFetch();
   }
 
-  resetAndFetch(filter: string): void {
+  resetAndFetch(): void {
     this.page.set(1);
     this.hasMore.set(true);
     this.posts.set([]);
@@ -85,7 +86,6 @@ export class Posts implements OnInit {
   onScroll(): void {
     const bottomReached =
       window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 300;
-
     if (bottomReached) {
       this.getPostsData();
     }
@@ -97,11 +97,30 @@ export class Posts implements OnInit {
     }
   }
 
-  onEditPost(post: Post){
+  // 🟢 STEP 1: OPEN the modal
+  onEditPost(post: Post): void {
     this.editingPost.set(post);
-    // Why? Setting the entire post into this.editingPost means your edit UI immediately has access to the post's ID, existing text (post.body), current
-    // image, and privacy without having to search the array or make another network request!
+    // Because editingPost is now a Post object,
+    // @if (editingPost()) becomes TRUE and the modal pops up!
+  }
 
+  // 🔴 STEP 2: FINISH & CLOSE the modal
+  onPostUpdated(updatedPost: Post): void {
+    // 1. Update the item in your array
+    this.posts.update((currentPosts) =>
+      currentPosts.map((p) => {
+          if(p.id !== updatedPost.id) return p;
 
+          return {
+            ...p,
+            ...updatedPost,
+            user: p.user,
+            image: updatedPost.image,
+          };
+      })
+    );
+
+    // 2. Setting it to NULL closes/destroys the modal!
+    this.editingPost.set(null);
   }
 }

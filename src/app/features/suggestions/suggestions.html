@@ -129,7 +129,7 @@
     -->
 
     <!-- Load More Button -->
-    @if(hasMore()) {
+    @if(hasMore() || isLoading()) {
     <button
       type="button"
       (click)="onLoadMore()"

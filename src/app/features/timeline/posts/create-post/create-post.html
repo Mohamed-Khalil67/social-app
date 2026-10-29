@@ -86,7 +86,7 @@
 
     <div class="flex items-center gap-3">
       <button
-        type="submit"
+        type="button"
         (click)="onCreatePost(fileInput)"
         [disabled]="isSubmitting() || (!createPostModel().body.trim() && !selectedFile())"
         class="flex cursor-pointer items-center gap-2 rounded-lg bg-[#1877f2] px-5 py-2 text-sm font-extrabold text-white shadow-sm transition-colors hover:bg-[#166fe5] disabled:cursor-not-allowed disabled:opacity-50"

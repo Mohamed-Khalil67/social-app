@@ -170,7 +170,8 @@
                 </svg>
                 Save post
               </button>
-
+              @if(post.user._id === userProfile()?._id)
+              {
               <!-- Edit Post -->
               <button
                 type="button"
@@ -202,6 +203,8 @@
                 </svg>
                 Delete post
               </button>
+              }
+
             </div>
           </details>
         </div>
@@ -321,3 +324,14 @@
     </div>
   }
 </div>
+  <!--In your TypeScript, editingPost is Signal<Post | null>.-->
+  <!--  By adding ; as currentPost, Angular checks that editingPost() is not null and assigns the non-null value to a local template variable named-->
+  <!--  currentPost.-->
+  @if(editingPost(); as currentPost){
+    <app-edit-post
+    [post]="currentPost"
+    (close)="editingPost.set(null)"
+    (postUpdated)="onPostUpdated($event)"
+    >
+    </app-edit-post>
+  }
