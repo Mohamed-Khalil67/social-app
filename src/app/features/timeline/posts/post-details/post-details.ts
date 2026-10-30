@@ -1,4 +1,5 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
+import {Location} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 import {PostService} from '../services/post.service';
 import {Post} from '../../../../core/models/post.interface';
@@ -12,6 +13,7 @@ import {Post} from '../../../../core/models/post.interface';
 export class PostDetails implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly postService = inject(PostService);
+  private readonly location = inject(Location);
 
   postData = signal<Post | null>(null);
 
@@ -31,6 +33,10 @@ export class PostDetails implements OnInit {
         }
       }
     });
+  }
+
+  goBack(): void {
+    this.location.back()
   }
 
 }
