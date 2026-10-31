@@ -1,0 +1,72 @@
+<div class="border-t border-slate-200 bg-[#f7f8fa] px-4 py-4">
+  <p class="mb-3 text-sm font-extrabold tracking-wide text-slate-700">Comments</p>
+
+  @if (commentsResource.isLoading()) {
+    <p class="text-xs text-slate-500">Loading comments...</p>
+  }
+
+  @if (commentsResource.error()) {
+    <p class="text-xs text-red-500">Could not load comments.</p>
+  }
+
+  <div class="space-y-2">
+    @for (comment of comments(); track comment._id) {
+      <div class="flex items-start gap-2">
+        <img
+          [src]="comment.commentCreator.photo || defaultPhoto"
+          [alt]="comment.commentCreator.name"
+          class="mt-0.5 h-8 w-8 shrink-0 rounded-full object-cover"
+        />
+        <div class="min-w-0 flex-1">
+          <div class="inline-block max-w-full rounded-2xl bg-[#f0f2f5] px-3 py-2">
+            <p class="text-xs font-bold text-slate-900">{{ comment.commentCreator.name }}</p>
+            <p class="mt-1 whitespace-pre-wrap text-sm text-slate-800">{{ comment.content }}</p>
+          </div>
+          @if (comment.image) {
+            <img
+              [src]="comment.image"
+              alt="Comment image"
+              class="mt-1 max-h-60 max-w-full rounded-xl object-cover"
+            />
+          }
+          <p class="mt-1 px-1 text-xs text-slate-400">{{ comment.createdAt | date: 'd MMM, HH:mm' }}</p>
+        </div>
+      </div>
+    } @empty {
+      @if (!commentsResource.isLoading() && !commentsResource.error()) {
+        <p class="text-xs text-slate-500">No comments yet. Be the first!</p>
+      }
+    }
+  </div>
+
+  <div class="mt-3 flex items-center gap-2">
+    <input
+      type="text"
+      [(ngModel)]="newComment"
+      (keyup.enter)="addComment()"
+      placeholder="Write a comment..."
+      class="w-full rounded-full border border-slate-200 bg-[#f0f2f5] px-4 py-2 text-sm outline-none placeholder:text-slate-500 focus:border-[#c7dafc] focus:bg-white"
+    />
+    <label class="inline-flex cursor-pointer items-center justify-center rounded-full p-2 text-sm font-semibold text-slate-500 transition hover:bg-slate-200 hover:text-emerald-600">
+      Image
+      <input type="file" accept="image/*" class="hidden" (change)="onImageSelected($event)" />
+    </label>
+    <button
+      type="button"
+      (click)="addComment()"
+      [disabled]="isSending()"
+      class="cursor-pointer rounded-full bg-[#1877f2] px-4 py-2 text-sm font-bold text-white transition hover:bg-[#166fe5] disabled:opacity-60"
+    >
+      Send
+    </button>
+  </div>
+
+  @if (selectedImage(); as image) {
+    <div class="mt-2 flex items-center gap-2 text-xs text-slate-600">
+      <span>Image: {{ image.name }}</span>
+      <button type="button" (click)="selectedImage.set(null)" class="cursor-pointer font-bold text-red-500 hover:underline">
+        Remove
+      </button>
+    </div>
+  }
+</div>

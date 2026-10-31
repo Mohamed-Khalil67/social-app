@@ -37,8 +37,13 @@ export class PostService {
     });
   }
 
-  getSinglePost(postId: string): Observable<any> {
-    return this.http.get(environment.baseUrl + `/posts/${postId}`);
+  getSinglePost(postId: string): Observable<{ data: { post: Post } }> {
+    return this.http.get<{ data: { post: Post } }>(environment.baseUrl + `/posts/${postId}`);
+  }
+
+  // PUT /posts/:postId/like  (toggle: the server likes it, or unlikes it if already liked)
+  toggleLike(postId: string): Observable<{ message: string }> {
+    return this.http.put<{ message: string }>(environment.baseUrl + `/posts/${postId}/like`, {});
   }
 
   editPost(postId: string, data:FormData): Observable<any> {

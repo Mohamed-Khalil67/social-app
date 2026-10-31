@@ -9,6 +9,7 @@ import {PostService} from './services/post.service';
 import {RouterLink} from '@angular/router';
 import {Post, PostPrivacy} from '../../../core/models/post.interface';
 import {CreatePost} from './create-post/create-post';
+import {PostComments} from './post-comments/post-comments';
 import {UserService} from '../../../core/services/user.service';
 import {EditPost} from './edit-post/edit-post';
 import {SearchPipe} from '../../../shared/pipes/search-pipe';
@@ -20,6 +21,7 @@ import {FormsModule} from '@angular/forms';
     RouterLink,
     CreatePost,
     EditPost,
+    PostComments,
     SearchPipe,
     FormsModule,
   ],
@@ -48,6 +50,8 @@ export class Posts{
   readonly isLoading = this.feed.isLoading;
   readonly hasMore = computed<boolean>(() => { return this.feed.hasValue() ? this.feed.value().data.posts.length > 0 : true });
   editingPost = signal<Post | null>(null)
+  // id of the post whose comments are open (null = none open)
+  readonly openCommentsPostId = signal<string | null>(null);
 
   readonly posts = linkedSignal<Post[] | undefined, Post[]>({
     source: () => this.feed.hasValue() ? this.feed.value().data.posts : undefined,
@@ -115,6 +119,46 @@ export class Posts{
     console.log(`[scroll] bottom reached -> loading page ${this.page() + 1}`);
     this.page.update(p => p +1);
 
+  }
+
+  toggleComments(postId: string): void {
+    console.log(`[comment button] post ${postId}`);
+    // clicking the open post closes it, clicking another post switches to it
+    this.openCommentsPostId.update((current) => (current === postId ? null : postId));
+  }
+
+  onCommentAdded(postId: string): void {
+    this.refreshPost(postId);
+  }
+
+  onLike(postId: string): void {
+    console.log(`[like] toggle post ${postId}`);
+    this.postService.toggleLike(postId).subscribe({
+      next: (res) => {
+        console.log('[like] success', res);
+        this.refreshPost(postId);
+      },
+      error: (err) => console.error('[like] failed', err),
+    });
+  }
+
+  // did the logged-in user like this post? (the post's `likes` holds the ids of users who liked it)
+  isLiked(post: Post): boolean {
+    const me = this.userProfile();
+    if (!me || !post.likes) return false;
+    return post.likes.includes(me._id);
+  }
+
+  // ask the server for the fresh version of this one post, then swap it into the list
+  private refreshPost(postId: string): void {
+    this.postService.getSinglePost(postId).subscribe({
+      next: (res) => {
+        const freshPost = res.data.post;
+        console.log(`[post refresh] post ${postId}: ${freshPost.likesCount} likes, ${freshPost.commentsCount} comments`);
+        this.posts.update((current) => current.map((p) => (p._id === postId ? freshPost : p)));
+      },
+      error: (err) => console.error('[post refresh] failed', err),
+    });
   }
 
   onPostCreated(newPost: Post): void {
