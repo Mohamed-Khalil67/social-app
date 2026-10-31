@@ -11,8 +11,14 @@
 
 @theme {
   --font-sans: 'SN Pro', sans-serif;
-  --color-primaryColor: #00298D;
-  --color-secondaryColor: #f0f2f5;
+  /* TookFace: black for structure, red for actions */
+  --color-ink: #0A0A0A;
+  --color-brand: #D7191F;
+  --color-brand-dark: #A8111A;
+  --color-brand-soft: #FDECEC;
+  --color-brand-line: #F2BFC1;
+  --color-primaryColor: #0A0A0A;
+  --color-secondaryColor: #F2F0F0;
 }
 
 body {

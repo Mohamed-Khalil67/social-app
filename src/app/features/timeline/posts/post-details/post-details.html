@@ -3,7 +3,7 @@
   <button
     type="button"
     (click)="goBack()"
-    class="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-50"
+    class="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm font-bold text-neutral-700 transition hover:bg-neutral-50"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -26,7 +26,7 @@
 
   @if (postData(); as post) {
     <!-- Post Article Card -->
-    <article class="overflow-visible rounded-xl border border-slate-200 bg-white shadow-sm">
+    <article class="overflow-visible rounded-xl border border-neutral-200 bg-white shadow-sm">
       <div class="p-4">
         <!-- Post Header -->
         <div class="flex items-center gap-3">
@@ -38,13 +38,13 @@
             />
           </a>
           <div class="min-w-0 flex-1">
-            <a class="truncate text-sm font-bold text-slate-900 hover:underline block" href="javascript:void(0)">
+            <a class="truncate text-sm font-bold text-neutral-900 hover:underline block" href="javascript:void(0)">
               {{ post.user?.name || 'Anonymous' }}
             </a>
-            <div class="flex flex-wrap items-center gap-1 text-xs text-slate-500">
+            <div class="flex flex-wrap items-center gap-1 text-xs text-neutral-500">
               <span>&#64;{{ post.user?.username || post.user?.name || 'user' }}</span>
               <span>·</span>
-              <span class="rounded px-0.5 py-0.5 text-xs font-semibold text-slate-500">
+              <span class="rounded px-0.5 py-0.5 text-xs font-semibold text-neutral-500">
                 {{ post.createdAt }}
               </span>
               <span class="mx-1">·</span>
@@ -62,7 +62,7 @@
           <div class="relative">
             <button
               type="button"
-              class="rounded-full p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-700 cursor-pointer"
+              class="rounded-full p-1.5 text-neutral-500 hover:bg-neutral-100 hover:text-neutral-700 cursor-pointer"
               aria-label="Post options"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis" aria-hidden="true">
@@ -77,14 +77,14 @@
         <!-- Post Body -->
         @if (post.body) {
           <div class="mt-3">
-            <p class="whitespace-pre-wrap text-sm leading-relaxed text-slate-800">{{ post.body }}</p>
+            <p class="whitespace-pre-wrap text-sm leading-relaxed text-neutral-800">{{ post.body }}</p>
           </div>
         }
       </div>
 
       <!-- Post Image -->
       @if (post.image) {
-        <div class="max-h-[620px] overflow-hidden border-y border-slate-200">
+        <div class="max-h-[620px] overflow-hidden border-y border-neutral-200">
           <button type="button" class="group relative block w-full cursor-zoom-in">
             <img
               [src]="post.image"
@@ -97,16 +97,16 @@
       }
 
       <!-- Counters -->
-      <div class="px-4 pb-2 pt-3 text-sm text-slate-500">
+      <div class="px-4 pb-2 pt-3 text-sm text-neutral-500">
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div class="flex items-center gap-2">
-            <span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#1877f2] text-white">
+            <span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-brand text-white">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-thumbs-up" aria-hidden="true">
                 <path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"></path>
                 <path d="M7 10v12"></path>
               </svg>
             </span>
-            <button type="button" class="font-semibold transition cursor-pointer hover:text-[#1877f2] hover:underline">
+            <button type="button" class="font-semibold transition cursor-pointer hover:text-brand hover:underline">
               {{ post.likesCount ?? 0 }} likes
             </button>
           </div>
@@ -125,16 +125,16 @@
         </div>
       </div>
 
-      <div class="mx-4 border-t border-slate-200"></div>
+      <div class="mx-4 border-t border-neutral-200"></div>
 
       <!-- Action Buttons -->
       <div class="grid grid-cols-3 gap-1 p-1">
         <button
           type="button"
           (click)="onLike()"
-          [class.text-blue-600]="isLiked(post)"
-          [class.text-slate-600]="!isLiked(post)"
-          class="cursor-pointer flex items-center justify-center gap-1.5 rounded-md p-2 text-xs font-semibold transition-colors sm:gap-2 sm:text-sm hover:bg-slate-100"
+          [class.text-brand]="isLiked(post)"
+          [class.text-neutral-600]="!isLiked(post)"
+          class="cursor-pointer flex items-center justify-center gap-1.5 rounded-md p-2 text-xs font-semibold transition-colors sm:gap-2 sm:text-sm hover:bg-neutral-100"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" [attr.fill]="isLiked(post) ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-thumbs-up" aria-hidden="true">
             <path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"></path>
@@ -145,7 +145,7 @@
 
         <button
           type="button"
-          class="cursor-pointer flex items-center justify-center gap-1.5 rounded-md p-2 text-xs font-semibold transition-colors sm:gap-2 sm:text-sm text-slate-600 hover:bg-slate-100"
+          class="cursor-pointer flex items-center justify-center gap-1.5 rounded-md p-2 text-xs font-semibold transition-colors sm:gap-2 sm:text-sm text-neutral-600 hover:bg-neutral-100"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle" aria-hidden="true">
             <path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"></path>
@@ -155,7 +155,7 @@
 
         <button
           type="button"
-          class="cursor-pointer flex items-center justify-center gap-1.5 rounded-md p-2 text-xs font-semibold transition-colors sm:gap-2 sm:text-sm text-slate-600 hover:bg-slate-100"
+          class="cursor-pointer flex items-center justify-center gap-1.5 rounded-md p-2 text-xs font-semibold transition-colors sm:gap-2 sm:text-sm text-neutral-600 hover:bg-neutral-100"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-share-2" aria-hidden="true">
             <circle cx="18" cy="5" r="3"></circle>
@@ -172,11 +172,11 @@
     </article>
   } @else {
     <!-- Loading Skeleton/Spinner -->
-    <div class="rounded-2xl border border-slate-200 bg-white p-12 text-center shadow-sm">
-      <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#1877f2] border-r-transparent align-[-0.125em]" role="status">
+    <div class="rounded-2xl border border-neutral-200 bg-white p-12 text-center shadow-sm">
+      <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-brand border-r-transparent align-[-0.125em]" role="status">
         <span class="sr-only">Loading...</span>
       </div>
-      <p class="mt-3 text-sm font-semibold text-slate-500">Loading post details...</p>
+      <p class="mt-3 text-sm font-semibold text-neutral-500">Loading post details...</p>
     </div>
   }
 </div>
