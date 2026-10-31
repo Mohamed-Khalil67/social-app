@@ -52,6 +52,9 @@ export class Posts{
   editingPost = signal<Post | null>(null)
   // id of the post whose comments are open (null = none open)
   readonly openCommentsPostId = signal<string | null>(null);
+  // id of the post whose share box is open, and the message typed in it
+  readonly sharingPostId = signal<string | null>(null);
+  readonly shareText = signal<string>('');
 
   readonly posts = linkedSignal<Post[] | undefined, Post[]>({
     source: () => this.feed.hasValue() ? this.feed.value().data.posts : undefined,
@@ -125,6 +128,26 @@ export class Posts{
     console.log(`[comment button] post ${postId}`);
     // clicking the open post closes it, clicking another post switches to it
     this.openCommentsPostId.update((current) => (current === postId ? null : postId));
+  }
+
+  toggleShare(postId: string): void {
+    console.log(`[share button] post ${postId}`);
+    this.shareText.set('');
+    this.sharingPostId.update((current) => (current === postId ? null : postId));
+  }
+
+  onShare(postId: string): void {
+    console.log(`[share] post ${postId} with message "${this.shareText()}"`);
+    this.postService.sharePost(postId, this.shareText()).subscribe({
+      next: (res) => {
+        console.log('[share] success', res);
+        this.sharingPostId.set(null);
+        this.shareText.set('');
+        // the original post's sharesCount went up, so refresh just that post
+        this.refreshPost(postId);
+      },
+      error: (err) => console.error('[share] failed', err),
+    });
   }
 
   onCommentAdded(postId: string): void {

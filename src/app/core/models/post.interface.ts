@@ -34,6 +34,9 @@ export interface Post {
   topComment?: PostComment;
   likes?: string[];
   bookmarked?: boolean;
+  // a shared post is a new post of its own; the original lives inside sharedPost
+  isShare?: boolean;
+  sharedPost?: Post | null;
 }
 
 export interface CreatePostPayload {

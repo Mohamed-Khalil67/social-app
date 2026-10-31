@@ -46,6 +46,11 @@ export class PostService {
     return this.http.put<{ message: string }>(environment.baseUrl + `/posts/${postId}/like`, {});
   }
 
+  // POST /posts/:postId/share  (creates a NEW post for me that points at the original)
+  sharePost(postId: string, body: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(environment.baseUrl + `/posts/${postId}/share`, { body });
+  }
+
   editPost(postId: string, data:FormData): Observable<any> {
     return this.http.put(environment.baseUrl + `/posts/${postId}`, data);
   }
