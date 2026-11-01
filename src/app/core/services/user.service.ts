@@ -9,7 +9,25 @@ export class UserService {
   private http = inject(HttpClient);
   baseUrl = `${environment.baseUrl}/users`;
 
-  readonly userProfile = signal<UserProfile | null>(null)
+  // only this service writes the profile; everyone else reads userProfile
+  private readonly profile = signal<UserProfile | null>(null);
+  readonly userProfile = this.profile.asReadonly();
+
+  // fetch the logged-in user once and keep them in the signal (null until it arrives)
+  loadProfile(): void {
+    this.getMyProfileData().subscribe({
+      next: (res) => {
+        console.log('[profile] loaded', res);
+        this.profile.set(res.data.user);
+      },
+      error: (err) => console.error('[profile] failed', err.message),
+    });
+  }
+
+  // keep name, email, _id... and replace only the photo
+  updatePhoto(photo: string): void {
+    this.profile.update((current) => (current ? { ...current, photo } : null));
+  }
 
   getSuggestions(page: number = 1, limit: number = 10):Observable<{data: {suggestions: SuggestedUser[]}; meta?: {pagination?: SuggestedPaginationInfo}}> {
     const params = new HttpParams().set('page', page.toString()).set('limit', limit.toString());
