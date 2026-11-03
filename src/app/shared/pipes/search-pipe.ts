@@ -7,7 +7,7 @@ export class SearchPipe implements PipeTransform {
   transform(arr: any[], searchTerm: string): any[] {
     return arr.filter(item => {
       // console.log(item.user.name)
-      return item.user.name.includes(searchTerm.toLowerCase());
+      return item.user.name.toLowerCase().includes(searchTerm.toLowerCase());
     });
   }
 }

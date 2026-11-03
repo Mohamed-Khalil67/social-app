@@ -186,7 +186,7 @@ export class Posts{
 
   onPostCreated(newPost: Post): void {
     if (newPost) {
-      this.posts.update((current) => [newPost, ...current]);
+      this.posts.update((current) => [{...newPost, user: this.userProfile()!}, ...current]);
     }
   }
 

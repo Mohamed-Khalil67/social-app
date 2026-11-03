@@ -1,5 +1,5 @@
 <!-- Create Post Card -->
-<form (submit)="onCreatePost(fileInput); $event.preventDefault()" class="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm mb-4">
+<form (submit)="onCreatePost();$event.preventDefault()" (reset)="resetForm()" class="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm mb-4">
   <div class="mb-3 flex items-start gap-3">
     <img
       alt="User"
@@ -39,7 +39,7 @@
       <img [src]="imagePreview()!" alt="Upload preview" class="max-h-80 w-full object-cover rounded-xl" />
       <button
         type="button"
-        (click)="removeImage(fileInput)"
+        (click)="clearImage()"
         class="absolute right-2.5 top-2.5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-neutral-900/70 text-white backdrop-blur-sm transition hover:bg-neutral-900"
         aria-label="Remove image"
       >
@@ -86,8 +86,15 @@
 
     <div class="flex items-center gap-3">
       <button
+        type="reset"
+        [disabled]="isSubmitting()"
+        class="cursor-pointer rounded-lg px-3 py-2 text-sm font-semibold text-neutral-500 transition-colors hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        Clear
+      </button>
+      <button
         type="button"
-        (click)="onCreatePost(fileInput)"
+        (click)="onCreatePost()"
         [disabled]="isSubmitting() || (!createPostModel().body.trim() && !selectedFile())"
         class="flex cursor-pointer items-center gap-2 rounded-lg bg-brand px-5 py-2 text-sm font-extrabold text-white shadow-sm transition-colors hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50"
       >
