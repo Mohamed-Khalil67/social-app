@@ -4,10 +4,16 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'search',
 })
 export class SearchPipe implements PipeTransform {
-  transform(arr: any[], searchTerm: string): any[] {
+  // keeps the posts whose author's name or username contains the search term
+  transform<T extends { user?: { name?: string; username?: string } }>(arr: T[] | null | undefined, searchTerm: string): T[] {
+    if (!arr) return [];
+    const term = searchTerm?.trim().toLowerCase();
+    if (!term) return arr;
+
     return arr.filter(item => {
-      // console.log(item.user.name)
-      return item.user.name.toLowerCase().includes(searchTerm.toLowerCase());
+      const name = item.user?.name?.toLowerCase() ?? '';
+      const username = item.user?.username?.toLowerCase() ?? '';
+      return name.includes(term) || username.includes(term);
     });
   }
 }

@@ -88,7 +88,32 @@
 
 <app-create-post (postCreated)="onPostCreated($event)"></app-create-post>
 
-<input type="search" [(ngModel)]="text">
+<!-- Search posts by author -->
+<div class="my-4">
+  <label class="relative block">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400" aria-hidden="true">
+      <path d="m21 21-4.34-4.34"></path>
+      <circle cx="11" cy="11" r="8"></circle>
+    </svg>
+    <input
+      type="text"
+      [(ngModel)]="text"
+      placeholder="Search posts by name or username..."
+      aria-label="Search posts by name or username"
+      class="w-full rounded-xl border border-neutral-200 bg-white py-2.5 pl-10 pr-10 text-sm text-neutral-700 shadow-sm outline-none transition-colors focus:border-brand"
+    />
+    @if (text()) {
+      <button
+        type="button"
+        (click)="text.set('')"
+        aria-label="Clear search"
+        class="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600"
+      >
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+    }
+  </label>
+</div>
 <!-- Posts List Container -->
 <div class="space-y-4">
   @for (post of posts() | search: text() ; track post._id) {
@@ -354,8 +379,13 @@
           <rect width="8" height="4" x="10" y="6" rx="1"></rect>
         </svg>
       </div>
-      <h3 class="text-base font-bold text-neutral-800">No posts yet</h3>
-      <p class="mt-1 text-sm text-neutral-500">Be the first to share something with your network!</p>
+      @if (text().trim()) {
+        <h3 class="text-base font-bold text-neutral-800">No posts found</h3>
+        <p class="mt-1 text-sm text-neutral-500">No posts from users matching "{{ text().trim() }}".</p>
+      } @else {
+        <h3 class="text-base font-bold text-neutral-800">No posts yet</h3>
+        <p class="mt-1 text-sm text-neutral-500">Be the first to share something with your network!</p>
+      }
     </div>
   }
 
