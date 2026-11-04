@@ -1,59 +1,49 @@
-# SocialMedia
+# Social App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.2.
+A social media web app built with Angular to practice modern Angular features.
 
-## Development server
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-000?logo=vercel&logoColor=white)](https://social-app-sigma-beryl.vercel.app)
+![Angular](https://img.shields.io/badge/Angular-22-DD0031?logo=angular&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 
-To start a local development server, run:
+**Live site:** https://social-app-sigma-beryl.vercel.app
 
-```bash
-ng serve
-```
+## Features
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Register, log in, and change your password
+- Timeline with posts, likes, comments, and sharing
+- Post details page
+- Profile page
+- Notifications and suggestions
+- Settings
+- Route guards that keep signed-in and signed-out pages separate
 
-## Code scaffolding
+## Tech stack
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Angular 22 (standalone components, router guards, HTTP interceptors)
+- Tailwind CSS 4 and Flowbite
+- Font Awesome
+- Deployed on Vercel. Every push to `master` deploys automatically.
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+## Run locally
 
 ```bash
-ng build
+npm install
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Then open `http://localhost:4200/`.
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Build
 
 ```bash
-ng test
+npm run build
 ```
 
-## Running end-to-end tests
+The output goes to `dist/social-media/browser`.
 
-For end-to-end (e2e) testing, run:
+## Tests
 
 ```bash
-ng e2e
+npm test
 ```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
