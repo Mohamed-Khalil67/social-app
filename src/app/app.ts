@@ -1,9 +1,10 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { initFlowbite } from 'flowbite';
+import { NgxSpinnerComponent } from 'ngx-spinner';
 
 @Component({
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, NgxSpinnerComponent],
   selector: 'app-root',
   styleUrl: './app.css',
   templateUrl: './app.html',

@@ -2,13 +2,12 @@ import {inject, Service, signal} from '@angular/core';
 import {HttpClient, HttpParams, httpResource} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {SuggestedPaginationInfo, SuggestedUser, UserProfile} from '../models/user.interface';
-import {environment} from '../../../environments/environment';
 import {Post} from '../models/post.interface';
 
 @Service()
 export class UserService {
   private readonly http = inject(HttpClient);
-  readonly baseUrl = `${environment.baseUrl}/users`;
+  readonly baseUrl = '/users';
 
   // only this service writes the profile; everyone else reads userProfile
   private readonly profile = signal<UserProfile | null>(null);

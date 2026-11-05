@@ -1,7 +1,6 @@
 import {inject, Service} from '@angular/core';
 import {HttpClient, httpResource} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {environment} from '../../../../../environments/environment';
 import {PostComment} from '../../../../core/models/post.interface';
 
 @Service()
@@ -20,7 +19,7 @@ export class CommentService {
       if (!id) return undefined; // no post id yet -> no request
 
       return {
-        url: `${environment.baseUrl}/posts/${id}/comments`,
+        url: `/posts/${id}/comments`,
         params: { page: page(), limit: 10 },
       };
     });
@@ -34,7 +33,7 @@ export class CommentService {
       if (!id || !cId) return undefined;
 
       return {
-        url: `${environment.baseUrl}/posts/${id}/comments/${cId}/replies`,
+        url: `/posts/${id}/comments/${cId}/replies`,
         params: { page: page(), limit: 10 },
       };
     });
@@ -43,22 +42,22 @@ export class CommentService {
   // ---------- ACTIONS (HttpClient) ----------
 
   createComment(postId: string, data: FormData): Observable<{ message: string }> {
-    return this.http.post<{ message: string }>(`${environment.baseUrl}/posts/${postId}/comments`, data);
+    return this.http.post<{ message: string }>(`/posts/${postId}/comments`, data);
   }
 
   createReply(postId: string, commentId: string, data: FormData): Observable<{ message: string }> {
-    return this.http.post<{ message: string }>(`${environment.baseUrl}/posts/${postId}/comments/${commentId}/replies`, data);
+    return this.http.post<{ message: string }>(`/posts/${postId}/comments/${commentId}/replies`, data);
   }
 
   updateComment(postId: string, commentId: string, data: FormData): Observable<{ message: string }> {
-    return this.http.put<{ message: string }>(`${environment.baseUrl}/posts/${postId}/comments/${commentId}`, data);
+    return this.http.put<{ message: string }>(`/posts/${postId}/comments/${commentId}`, data);
   }
 
   deleteComment(postId: string, commentId: string): Observable<{ message: string }> {
-    return this.http.delete<{ message: string }>(`${environment.baseUrl}/posts/${postId}/comments/${commentId}`);
+    return this.http.delete<{ message: string }>(`/posts/${postId}/comments/${commentId}`);
   }
 
   toggleCommentLike(postId: string, commentId: string): Observable<{ message: string }> {
-    return this.http.put<{ message: string }>(`${environment.baseUrl}/posts/${postId}/comments/${commentId}/like`, {});
+    return this.http.put<{ message: string }>(`/posts/${postId}/comments/${commentId}/like`, {});
   }
 }

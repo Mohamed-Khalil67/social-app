@@ -1,7 +1,6 @@
 import {inject, Service, signal} from '@angular/core';
 import {HttpClient, httpResource} from '@angular/common/http';
 import { Observable} from 'rxjs';
-import { environment } from '../../../../../environments/environment';
 import {Post} from '../../../../core/models/post.interface';
 
 @Service()
@@ -16,12 +15,12 @@ export class PostService {
   }
 
   getAllPosts(): Observable<any> {
-    return this.http.get(environment.baseUrl + '/posts');
+    return this.http.get('/posts');
   }
 
   getHomeFeed(only: string = 'all', page: number = 1, limit: number = 10): Observable<any> {
     const params = { only: only, page, limit };
-    return this.http.get(environment.baseUrl + '/posts/feed', { params });
+    return this.http.get('/posts/feed', { params });
   }
 
   // post.service.ts
@@ -31,31 +30,31 @@ export class PostService {
       const p = page();
       console.log(`[2 request] GET /posts/feed?only=${only}&page=${p}`);
       return {
-        url: `${environment.baseUrl}/posts/feed`,
+        url: '/posts/feed',
         params: { only, page: p, limit: 10 },
       };
     });
   }
 
   getSinglePost(postId: string): Observable<{ data: { post: Post } }> {
-    return this.http.get<{ data: { post: Post } }>(environment.baseUrl + `/posts/${postId}`);
+    return this.http.get<{ data: { post: Post } }>(`/posts/${postId}`);
   }
 
   // PUT /posts/:postId/like  (toggle: the server likes it, or unlikes it if already liked)
   toggleLike(postId: string): Observable<{ message: string }> {
-    return this.http.put<{ message: string }>(environment.baseUrl + `/posts/${postId}/like`, {});
+    return this.http.put<{ message: string }>(`/posts/${postId}/like`, {});
   }
 
   // POST /posts/:postId/share  (creates a NEW post for me that points at the original)
   sharePost(postId: string, body: string): Observable<{ message: string }> {
-    return this.http.post<{ message: string }>(environment.baseUrl + `/posts/${postId}/share`, { body });
+    return this.http.post<{ message: string }>(`/posts/${postId}/share`, { body });
   }
 
   editPost(postId: string, data:FormData): Observable<any> {
-    return this.http.put(environment.baseUrl + `/posts/${postId}`, data);
+    return this.http.put(`/posts/${postId}`, data);
   }
 
   createPost(data:FormData): Observable<any> {
-    return this.http.post(environment.baseUrl + '/posts/',data);
+    return this.http.post('/posts/',data);
   }
 }
