@@ -45,6 +45,11 @@ export class PostService {
     return this.http.post<{ message: string }>(`/posts/${postId}/share`, { body });
   }
 
+  // DELETE /posts/:postId
+  deletePost(postId: string): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`/posts/${postId}`);
+  }
+
   editPost(postId: string, data:FormData): Observable<any> {
     return this.http.put(`/posts/${postId}`, data);
   }

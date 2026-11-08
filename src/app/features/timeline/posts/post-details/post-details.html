@@ -168,7 +168,7 @@
         </button>
       </div>
 
-      <app-post-comments [postId]="post._id" (commentAdded)="onCommentAdded()" />
+      <app-post-comments [postId]="post._id" (commentAdded)="onCommentAdded()" (commentDeleted)="onCommentAdded()" />
     </article>
   } @else {
     <!-- Loading Skeleton/Spinner -->

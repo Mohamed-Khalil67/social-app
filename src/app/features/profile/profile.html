@@ -443,7 +443,7 @@
 
               <!-- Comments Section -->
               @if (openCommentsPostId() === post._id) {
-                <app-post-comments [postId]="post._id" (commentAdded)="onCommentAdded(post._id)" />
+                <app-post-comments [postId]="post._id" (commentAdded)="onCommentAdded(post._id)" (commentDeleted)="onCommentAdded(post._id)" />
               }
             </article>
           }

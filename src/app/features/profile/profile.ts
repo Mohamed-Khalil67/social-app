@@ -148,8 +148,18 @@ export class Profile {
   onDeletePost(postId: string): void {
     if (!confirm('Are you sure you want to delete this post?')) return;
     this.deletingPostId.set(postId);
-    this.posts.update((current) => current.filter((p) => p._id !== postId && p.id !== postId));
-    this.deletingPostId.set(null);
+
+    this.postService.deletePost(postId).subscribe({
+      next: () => {
+        // server confirmed -> now remove it from the screen
+        this.posts.update((current) => current.filter((p) => p._id !== postId));
+        this.deletingPostId.set(null);
+      },
+      error: (err) => {
+        console.error('[delete post] failed', err);
+        this.deletingPostId.set(null); // keep the post, re-enable the button
+      },
+    });
   }
 
   private refreshPost(postId: string): void {

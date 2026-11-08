@@ -54,6 +54,8 @@ export class Posts{
   // id of the post whose share box is open, and the message typed in it
   readonly sharingPostId = signal<string | null>(null);
   readonly shareText = signal<string>('');
+  // id of the post being deleted (disables its button while the request runs)
+  readonly deletingPostId = signal<string | null>(null);
 
   readonly posts = linkedSignal<Post[] | undefined, Post[]>({
     source: () => this.feed.hasValue() ? this.feed.value().data.posts : undefined,
@@ -180,6 +182,22 @@ export class Posts{
     if (newPost) {
       this.posts.update((current) => [{...newPost, user: this.userProfile()!}, ...current]);
     }
+  }
+
+  onDeletePost(postId: string): void {
+    if (!confirm('Are you sure you want to delete this post?')) return;
+    this.deletingPostId.set(postId);
+
+    this.postService.deletePost(postId).subscribe({
+      next: () => {
+        this.posts.update((current) => current.filter((p) => p._id !== postId));
+        this.deletingPostId.set(null);
+      },
+      error: (err) => {
+        console.error('[delete post] failed', err);
+        this.deletingPostId.set(null);
+      },
+    });
   }
 
   // 🟢 STEP 1: OPEN the modal

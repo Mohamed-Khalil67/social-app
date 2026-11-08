@@ -2,6 +2,7 @@ import {Component, computed, effect, inject, input, output, signal} from '@angul
 import {DatePipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {CommentService} from '../services/comment.service';
+import {UserService} from '../../../../core/services/user.service';
 
 @Component({
   imports: [FormsModule, DatePipe],
@@ -10,12 +11,22 @@ import {CommentService} from '../services/comment.service';
 })
 export class PostComments {
   private readonly commentService = inject(CommentService);
+  private readonly userService = inject(UserService);
+
+  // the logged-in user: only the author of a comment sees its Delete button
+  readonly userProfile = this.userService.userProfile;
 
   // the post id is given by the parent: <app-post-comments [postId]="post._id" />
   readonly postId = input.required<string>();
 
   // tells the parent "a comment was added" (the parent updates the post's comment count)
   readonly commentAdded = output<void>();
+
+  // tells the parent "a comment was deleted" (the parent refreshes the post's comment count)
+  readonly commentDeleted = output<void>();
+
+  // id of the comment being deleted (disables its button while the request runs)
+  readonly deletingCommentId = signal<string | null>(null);
 
   // only the first page for now
   readonly page = signal<number>(1);
@@ -28,7 +39,7 @@ export class PostComments {
     this.commentsResource.hasValue() ? this.commentsResource.value().data.comments : []
   );
   // input of the comment , new comment , should be in sync , in order to clear it later when finishing the comment
-  readonly newComment = signal<string>('');
+  newComment = signal<string>('');
   readonly selectedImage = signal<File | null>(null);
   readonly isSending = signal<boolean>(false);
   readonly defaultPhoto = 'https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/default-profile.png';
@@ -49,6 +60,24 @@ export class PostComments {
     this.selectedImage.set(file ? file : null);
     console.log('[comment image] selected', file ? file.name : 'none');
     input.value = ''; // so picking the same file again still triggers (change)
+  }
+
+  // ACTION: runs when the author clicks Delete on one of their comments
+  onDeleteComment(commentId: string): void {
+    if (this.deletingCommentId() || !confirm('Delete this comment?')) return;
+    this.deletingCommentId.set(commentId);
+
+    this.commentService.deleteComment(this.postId(), commentId).subscribe({
+      next: () => {
+        this.deletingCommentId.set(null);
+        this.commentDeleted.emit();
+        this.commentsResource.reload(); // ask the server for the fresh list
+      },
+      error: (err) => {
+        console.error('[comment delete] failed', err);
+        this.deletingCommentId.set(null);
+      },
+    });
   }
 
   // ACTION: runs once, when the user clicks Send (or presses Enter)

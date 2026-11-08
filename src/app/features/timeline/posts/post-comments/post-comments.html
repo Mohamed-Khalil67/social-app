@@ -29,7 +29,19 @@
               class="mt-1 max-h-60 max-w-full rounded-xl object-cover"
             />
           }
-          <p class="mt-1 px-1 text-xs text-neutral-400">{{ comment.createdAt | date: 'd MMM, HH:mm' }}</p>
+          <div class="mt-1 flex items-center gap-3 px-1 text-xs text-neutral-400">
+            <span>{{ comment.createdAt | date: 'd MMM, HH:mm' }}</span>
+            @if (comment.commentCreator._id === userProfile()?._id) {
+              <button
+                type="button"
+                (click)="onDeleteComment(comment._id)"
+                [disabled]="deletingCommentId() === comment._id"
+                class="cursor-pointer font-semibold text-red-500 hover:underline disabled:opacity-50"
+              >
+                {{ deletingCommentId() === comment._id ? 'Deleting...' : 'Delete' }}
+              </button>
+            }
+          </div>
         </div>
       </div>
     } @empty {
