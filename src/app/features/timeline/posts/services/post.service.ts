@@ -25,15 +25,10 @@ export class PostService {
 
   // post.service.ts
   feedResource(page: () => number) {
-    return httpResource<{ data: { posts: Post[] } }>(() => {
-      const only = this.activeFilter();
-      const p = page();
-      console.log(`[2 request] GET /posts/feed?only=${only}&page=${p}`);
-      return {
-        url: '/posts/feed',
-        params: { only, page: p, limit: 10 },
-      };
-    });
+    return httpResource<{ data: { posts: Post[] } }>(() => ({
+      url: '/posts/feed',
+      params: { only: this.activeFilter(), page: page(), limit: 10 },
+    }));
   }
 
   getSinglePost(postId: string): Observable<{ data: { post: Post } }> {

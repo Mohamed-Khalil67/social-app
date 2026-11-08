@@ -30,7 +30,6 @@ import {FormsModule} from '@angular/forms';
   templateUrl: './posts.html',
 })
 export class Posts{
-
   readonly postService = inject(PostService);
   readonly userService = inject(UserService);
 
@@ -61,18 +60,23 @@ export class Posts{
     computation: (fresh, prev) => {
       const oldList = prev ? prev.value : [];
 
-      if (fresh === undefined) {
-        console.log(`[3 posts] loading... keep ${oldList.length} posts`);
-        return oldList;
-      }
-      if (this.page() === 1) {
-        console.log(`[3 posts] page 1 arrived -> replace with ${fresh.length} posts`);
-        return fresh;
-      }
-      console.log(`[3 posts] page ${this.page()} arrived -> add ${fresh.length} to ${oldList.length}`);
-      return oldList.concat(fresh);
+      if (fresh === undefined) return oldList;           // loading → keep what we have
+      if (this.page() === 1) return fresh;               // first page / filter changed → replace
+      return oldList.concat(fresh);                      // later pages → append
     },
   });
+
+  // ask the server for the fresh version of this one post, then swap it into the list
+  private refreshPost(postId: string): void {
+    this.postService.getSinglePost(postId).subscribe({
+      next: (res) => {
+        const freshPost = res.data.post;
+        console.log(`[post refresh] post ${postId}: ${freshPost.likesCount} likes, ${freshPost.commentsCount} comments`);
+        this.posts.update((current) => current.map((p) => (p._id === postId ? freshPost : p)));
+      },
+      error: (err) => console.error('[post refresh] failed', err),
+    });
+  }
 
   constructor() {
     effect(() => console.log(`[status] feed is "${this.feed.status()}"`));
@@ -115,7 +119,7 @@ export class Posts{
   @HostListener('window:scroll')
   onScroll(): void {
     const bottomReached =
-      window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 300;
+      window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100;
 
     if (!bottomReached || this.isLoading() || !this.hasMore()) return;
 
@@ -170,18 +174,6 @@ export class Posts{
     const me = this.userProfile();
     if (!me || !post.likes) return false;
     return post.likes.includes(me._id);
-  }
-
-  // ask the server for the fresh version of this one post, then swap it into the list
-  private refreshPost(postId: string): void {
-    this.postService.getSinglePost(postId).subscribe({
-      next: (res) => {
-        const freshPost = res.data.post;
-        console.log(`[post refresh] post ${postId}: ${freshPost.likesCount} likes, ${freshPost.commentsCount} comments`);
-        this.posts.update((current) => current.map((p) => (p._id === postId ? freshPost : p)));
-      },
-      error: (err) => console.error('[post refresh] failed', err),
-    });
   }
 
   onPostCreated(newPost: Post): void {

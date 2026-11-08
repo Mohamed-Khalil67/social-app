@@ -390,7 +390,7 @@
   }
 
   <!-- Infinite Scroll Bottom Spinner -->
-  @if (isLoading()) {
+  @if (isLoading() && (posts().length > 0)) {
     <div class="flex items-center justify-center py-6">
       <div class="inline-block h-6 w-6 animate-spin rounded-full border-2 border-solid border-brand border-r-transparent align-[-0.125em]"></div>
       <span class="ml-2 text-xs font-semibold text-neutral-500">Loading more posts...</span>
