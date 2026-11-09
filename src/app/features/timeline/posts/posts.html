@@ -350,8 +350,7 @@
       @if (sharingPostId() === post._id) {
         <div class="border-t border-neutral-200 bg-[#f8f6f6] px-4 py-3">
           <textarea
-            [ngModel]="shareText()"
-            (ngModelChange)="shareText.set($event)"
+            [(ngModel)]="shareText()"
             rows="2"
             placeholder="Say something about this post..."
             class="w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-sm outline-none focus:border-brand-line"
