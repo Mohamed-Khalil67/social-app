@@ -1,7 +1,9 @@
-import { Component, ElementRef, inject, OnDestroy, output, signal, viewChild } from '@angular/core';import {PostService} from '../services/post.service';
-import {form, FormField, required} from '@angular/forms/signals';
-import {CreatePostPayload, Post} from '../../../../core/models/post.interface';
-import {UserService} from '../../../../core/services/user.service';
+import { Component, ElementRef, inject, OnDestroy, output, signal, viewChild } from '@angular/core';
+import { PostService } from '../services/post.service';
+import { form, FormField, required } from '@angular/forms/signals';
+import { CreatePostPayload, Post } from '../../../../core/models/post.interface';
+import { UserService } from '../../../../core/services/user.service';
+import { AsyncState } from '../../../../core/models/async-state';
 
 @Component({
   imports: [FormField],
@@ -13,7 +15,6 @@ export class CreatePost implements OnDestroy {
   private readonly postService = inject(PostService);
   private readonly userService = inject(UserService);
 
-  // best re
   private readonly fileInput = viewChild<ElementRef<HTMLInputElement>>('fileInput');
 
   ngOnDestroy() {
@@ -31,7 +32,7 @@ export class CreatePost implements OnDestroy {
   }
 
   readonly userProfile = this.userService.userProfile;
-  readonly isSubmitting = signal<boolean>(false);
+  readonly submitState = signal<AsyncState<Post>>(AsyncState.idle());
   readonly selectedFile = signal<File | null>(null);
   readonly imagePreview = signal<string | null>(null);
   readonly postCreated = output<Post>();
@@ -76,26 +77,28 @@ export class CreatePost implements OnDestroy {
     this.createPostModel.set({ body: '', privacy: 'public', image: null });
     this.createPostForm().reset();
     this.clearImage();
+    this.submitState.set(AsyncState.idle());
   }
 
   onCreatePost(): void {
     const formData = this.buildFormData();
-    if (!formData || this.isSubmitting()) return;
+    if (!formData || this.submitState().status === 'loading') return;
 
-    this.isSubmitting.set(true);
+    this.submitState.set(AsyncState.loading());
 
     this.postService.createPost(formData).subscribe({
       next: (res) => {
         const post = res.data.post;
-        if (post) this.postCreated.emit(post);
+        if (post) {
+          this.submitState.set(AsyncState.success(post));
+          this.postCreated.emit(post);
+        }
+        this.resetForm();
       },
       error: (err) => {
+        const message = err?.error?.message || 'Failed to create post. Please try again.';
+        this.submitState.set(AsyncState.error(message));
         console.error('Failed to create post:', err);
-        this.isSubmitting.set(false);
-      },
-      complete: () => {
-        this.resetForm();
-        this.isSubmitting.set(false);
       },
     });
   }

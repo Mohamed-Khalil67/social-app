@@ -53,7 +53,7 @@ export class Posts{
   readonly openCommentsPostId = signal<string | null>(null);
   // id of the post whose share box is open, and the message typed in it
   readonly sharingPostId = signal<string | null>(null);
-  readonly shareText = signal<string>('');
+  shareText = '';
   // id of the post being deleted (disables its button while the request runs)
   readonly deletingPostId = signal<string | null>(null);
 
@@ -138,17 +138,17 @@ export class Posts{
 
   toggleShare(postId: string): void {
     console.log(`[share button] post ${postId}`);
-    this.shareText.set('');
+    this.shareText = '';
     this.sharingPostId.update((current) => (current === postId ? null : postId));
   }
 
   onShare(postId: string): void {
-    console.log(`[share] post ${postId} with message "${this.shareText()}"`);
-    this.postService.sharePost(postId, this.shareText()).subscribe({
+    console.log(`[share] post ${postId} with message "${this.shareText}"`);
+    this.postService.sharePost(postId, this.shareText).subscribe({
       next: (res) => {
         console.log('[share] success', res);
         this.sharingPostId.set(null);
-        this.shareText.set('');
+        this.shareText = '';
         // the original post's sharesCount went up, so refresh just that post
         this.refreshPost(postId);
       },

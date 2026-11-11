@@ -3,6 +3,7 @@ import {DatePipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {CommentService} from '../services/comment.service';
 import {UserService} from '../../../../core/services/user.service';
+import {PostComment} from '../../../../core/models/post.interface';
 
 @Component({
   imports: [FormsModule, DatePipe],
@@ -39,10 +40,15 @@ export class PostComments {
     this.commentsResource.hasValue() ? this.commentsResource.value().data.comments : []
   );
   // input of the comment , new comment , should be in sync , in order to clear it later when finishing the comment
-  newComment = signal<string>('');
+  newComment = '';
   readonly selectedImage = signal<File | null>(null);
   readonly isSending = signal<boolean>(false);
   readonly defaultPhoto = 'https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/default-profile.png';
+
+  // Comment edit state
+  readonly editingCommentId = signal<string | null>(null);
+  editCommentContent = '';
+  readonly isUpdatingComment = signal<boolean>(false);
 
   constructor() {
     // logging only: lets us check the real shape of the response
@@ -80,9 +86,41 @@ export class PostComments {
     });
   }
 
+  startEditComment(comment: PostComment): void {
+    this.editingCommentId.set(comment._id);
+    this.editCommentContent = comment.content;
+  }
+
+  cancelEditComment(): void {
+    this.editingCommentId.set(null);
+    this.editCommentContent = '';
+  }
+
+  updateComment(commentId: string): void {
+    const content = this.editCommentContent.trim();
+    if (!content || this.isUpdatingComment()) return;
+
+    const formData = new FormData();
+    formData.append('content', content);
+
+    this.isUpdatingComment.set(true);
+    this.commentService.updateComment(this.postId(), commentId, formData).subscribe({
+      next: () => {
+        this.isUpdatingComment.set(false);
+        this.editingCommentId.set(null);
+        this.editCommentContent = '';
+        this.commentsResource.reload();
+      },
+      error: (err) => {
+        console.error('[comment update] failed', err);
+        this.isUpdatingComment.set(false);
+      },
+    });
+  }
+
   // ACTION: runs once, when the user clicks Send (or presses Enter)
   addComment(): void {
-    const content = this.newComment().trim();
+    const content = this.newComment.trim();
     const image = this.selectedImage();
     if ((!content && !image) || this.isSending()) return; // need text or an image
 
@@ -96,7 +134,7 @@ export class PostComments {
     this.commentService.createComment(this.postId(), formData).subscribe({
       next: (res) => {
         console.log('[comment add] success', res);
-        this.newComment.set('');
+        this.newComment = '';
         this.selectedImage.set(null);
         this.isSending.set(false);
         this.commentAdded.emit();

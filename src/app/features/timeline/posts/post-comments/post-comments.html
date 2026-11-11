@@ -18,10 +18,38 @@
           class="mt-0.5 h-8 w-8 shrink-0 rounded-full object-cover"
         />
         <div class="min-w-0 flex-1">
-          <div class="inline-block max-w-full rounded-2xl bg-secondaryColor px-3 py-2">
-            <p class="text-xs font-bold text-neutral-900">{{ comment.commentCreator.name }}</p>
-            <p class="mt-1 whitespace-pre-wrap text-sm text-neutral-800">{{ comment.content }}</p>
-          </div>
+          @if (editingCommentId() === comment._id) {
+            <div class="rounded-2xl bg-secondaryColor p-2.5">
+              <input
+                type="text"
+                [(ngModel)]="editCommentContent"
+                (keyup.enter)="updateComment(comment._id)"
+                class="w-full rounded-xl border border-neutral-300 bg-white px-3 py-1.5 text-sm outline-none focus:border-brand-line"
+              />
+              <div class="mt-2 flex items-center justify-end gap-2 text-xs">
+                <button
+                  type="button"
+                  (click)="cancelEditComment()"
+                  class="cursor-pointer font-semibold text-neutral-500 hover:underline"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  (click)="updateComment(comment._id)"
+                  [disabled]="isUpdatingComment()"
+                  class="cursor-pointer rounded-full bg-brand px-3 py-1 font-bold text-white hover:bg-brand-dark disabled:opacity-60"
+                >
+                  {{ isUpdatingComment() ? 'Saving...' : 'Save' }}
+                </button>
+              </div>
+            </div>
+          } @else {
+            <div class="inline-block max-w-full rounded-2xl bg-secondaryColor px-3 py-2">
+              <p class="text-xs font-bold text-neutral-900">{{ comment.commentCreator.name }}</p>
+              <p class="mt-1 whitespace-pre-wrap text-sm text-neutral-800">{{ comment.content }}</p>
+            </div>
+          }
           @if (comment.image) {
             <img
               [src]="comment.image"
@@ -32,6 +60,13 @@
           <div class="mt-1 flex items-center gap-3 px-1 text-xs text-neutral-400">
             <span>{{ comment.createdAt | date: 'd MMM, HH:mm' }}</span>
             @if (comment.commentCreator._id === userProfile()?._id) {
+              <button
+                type="button"
+                (click)="startEditComment(comment)"
+                class="cursor-pointer font-semibold text-blue-500 hover:underline"
+              >
+                Edit
+              </button>
               <button
                 type="button"
                 (click)="onDeleteComment(comment._id)"
